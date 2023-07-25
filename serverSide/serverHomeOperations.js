@@ -19,13 +19,15 @@ app.get("/", (req, res) => {
 const connection = mysql2.createConnection({
   host: "localhost",
   user: "root",
-  password: "0548574423",
+  password: "Ranit0907",
   database: "fullstack7",
 });
 
 // server starting
+
 app.listen(3001, () => {
   console.log('Server started on port 3001.');
+
 });
 
 app.get("/users/:userNum/:branch/allOperations", (req, res) => {
