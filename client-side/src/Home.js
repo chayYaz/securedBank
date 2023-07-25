@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Info from "./HomePages/Info"
+import HomeOperations from "./HomeOperations"
 import { BrowserRouter, Routes, Route ,Link,Outlet} from "react-router-dom";
 function Home() {
 
@@ -45,6 +46,7 @@ const Navigation = () => {
     <div className="App">
       <Navigation/>
       <Outlet />
+      <HomeOperations/>
     </div>
   );
 }
