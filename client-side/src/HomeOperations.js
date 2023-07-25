@@ -11,6 +11,7 @@ export default function HomeOperations() {
   const [allOperations, setAllOperations] = useState([]);
   
   const [numOperations, setNumOperations] = useState(4);
+  const [currentPage, setCurrentPage] = useState(1);
   const params = useParams();
 
  
@@ -21,11 +22,11 @@ export default function HomeOperations() {
       let branch="Branch A";
       let accountNum=1234567890;
       let res = await fetch(
-        `${start}users/${accountNum}/${branch}/allOperations`
+        `${start}users/${accountNum}/${branch}/allOperations?page=${currentPage}&perPage=${4}`
       );
       console.log(res.data);
       let userOperations = await res.json();
-      setAllOperations(userOperations);
+      setAllOperations(prev=>prev+userOperations);
       return;
     } catch (err) {
       console.log(err);
@@ -34,18 +35,19 @@ export default function HomeOperations() {
 
   useEffect(() => {
     getOperations();
-  }, []);
+  }, [currentPage]);
 
   const addOperationsToDisplay = () => {
-    if(allOperations.length > numOperations) {
+    if(allOperations.length ==0) {
       setNumOperations(prevNum => prevNum + 4);
+      setCurrentPage(prevNum => prevNum + 1);
     }
   };
 
   return (
     <div>
       {allOperations.length === 0? 'Loading...' :
-        allOperations.slice(0, numOperations).map(operation => (
+        allOperations.map(operation => (
         <>
         <p>{operation.amount}</p>
         <p>{operation.date}</p>
