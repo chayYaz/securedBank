@@ -2,7 +2,10 @@
 import React from "react";
 import Home from "./Home";
 import Info from "./HomePages/Info"
+import NotFound from "./NotFound"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
 function App() {
   return (
     <div className="App">
@@ -21,6 +24,7 @@ function App() {
             <Route path="ownershipConfirmation" element={<ownershipConfirmation/>}/>
             <Route path="rateReport" element={<RateReport/>}/> */}
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
     </div>
