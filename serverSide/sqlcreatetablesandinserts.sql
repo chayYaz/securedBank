@@ -64,16 +64,20 @@ INSERT INTO operations (sender_account_number, sender_branch, receiver_account_n
   ('1234567890', 'Branch A', '2345678901', 'Branch B', 'minus', 'Cash', 'Payment for services', '2023-07-11', 100.00),
   ('1234567890', 'Branch A', '2345678901', 'Branch B', 'minus', 'Cash', 'Payment for services', '2023-07-12', 120.00),
   ('1234567890', 'Branch A', '2345678901', 'Branch B', 'minus', 'Cash', 'Payment for services', '2023-07-13', 85.00);
+   
+   INSERT INTO operations (sender_account_number, sender_branch, receiver_account_number, receiver_branch, plus_minus, way_of_payment, reason, date, amount) VALUES('2345678901', 'Branch B', '1234567890', 'Branch A','minus', 'Cash', 'Payment for services', '2023-07-13',99.00);
 
 GRANT SELECT, INSERT, DELETE, UPDATE ON operations TO 'root'@'localhost';
 GRANT SELECT, INSERT, DELETE, UPDATE ON user_accounts TO 'root'@'localhost';
+FLUSH PRIVILEGES;
 
 select * from user_accounts
 select * from operations where (sender_account_number=1234567890 and sender_branch='Branch A') or 
 (receiver_account_number=1234567890 and receiver_branch='Branch A')
 #drop table operations
 SELECT DATABASE();
+ALTER USER 'root'@'localhost' IDENTIFIED BY '0548574423';
 
-
+SELECT user, host, authentication_string FROM mysql.user WHERE user = 'root';
 
 
