@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.menu {
+  background-color: goldenrod;
+  color:aliceblue;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  font-size: 18px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.menu a .symbol {
+  margin-right: 8px;
+  font-size: 20px;
+}
