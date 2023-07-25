@@ -4,7 +4,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-const start = "http://localhost:3000/";
+const start = "http://localhost:3001/";
 export default function HomeOperations() {
   const location = useLocation();
 
@@ -12,6 +12,7 @@ export default function HomeOperations() {
   
   const [numOperations, setNumOperations] = useState(4);
   const [currentPage, setCurrentPage] = useState(1);
+  const [display, setDisplay] = useState(false);
   const params = useParams();
 
  
@@ -26,8 +27,9 @@ export default function HomeOperations() {
       );
       console.log(res.data);
       let userOperations = await res.json();
-      setAllOperations(prev=>prev+userOperations);
-      return;
+      if(userOperations&& userOperations.length){
+      setAllOperations(prev=>prev.concat(userOperations));
+      return;}
     } catch (err) {
       console.log(err);
     }
@@ -35,10 +37,11 @@ export default function HomeOperations() {
 
   useEffect(() => {
     getOperations();
+    setDisplay(true)
   }, [currentPage]);
 
   const addOperationsToDisplay = () => {
-    if(allOperations.length ==0) {
+    if(allOperations.length !=0) {
       setNumOperations(prevNum => prevNum + 4);
       setCurrentPage(prevNum => prevNum + 1);
     }
@@ -46,7 +49,7 @@ export default function HomeOperations() {
 
   return (
     <div>
-      {allOperations.length === 0? 'Loading...' :
+      {allOperations.length === 0 && display? 'Loading...' :
         allOperations.map(operation => (
         <>
         <p>{operation.amount}</p>
@@ -54,7 +57,8 @@ export default function HomeOperations() {
         <p>{operation.receiver_account_number}</p>
         </>))}
       <p><Link onClick={addOperationsToDisplay} 
-        style={{display: numOperations >= allOperations.length && 'none'}}>More operation...</Link></p>
+         
+        >More operation...</Link></p>
     </div>
   );
 }
