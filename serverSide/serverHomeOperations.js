@@ -24,17 +24,24 @@ const connection = mysql2.createConnection({
 });
 
 // server starting
-app.listen(3000, () => {
-  console.log('Server started on port 3000.');
+
+app.listen(3001, () => {
+  console.log('Server started on port 3001.');
+
 });
 
 app.get("/users/:userNum/:branch/allOperations", (req, res) => {
   console.log("in users/id");
+  const page = parseInt(req.query.page) || 1;
+  const itemsPerPage = 4; // Number of items per page
+console.log(itemsPerPage);
+  // Calculate the offset for pagination
+  const offset = (page - 1) * itemsPerPage;
 
   const { userNum, branch } = req.params;
-  const query = "select * from operations where (sender_account_number=? and sender_branch=?) or(receiver_account_number=? and receiver_branch=?)";
+  const query = "select * from operations where (sender_account_number=? and sender_branch=?) or(receiver_account_number=? and receiver_branch=?) LIMIT ? OFFSET ?";
   let ansForQuery;
-  connection.query(query, [userNum, branch,userNum, branch], (err, results) => {
+  connection.query(query, [userNum, branch,userNum, branch,itemsPerPage, offset], (err, results) => {
     if (err) throw err;
     ansForQuery = results;
     console.log(ansForQuery);
