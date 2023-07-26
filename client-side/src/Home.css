@@ -5,17 +5,20 @@ body {
 
 .menu {
   background-color: goldenrod;
-  color:aliceblue;
   display: flex;
   justify-content: space-around;
   align-items: center;
   height: 60px;
   font-size: 18px;
 }
-
+.menu ul{
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+}
 .menu a {
   text-decoration: none;
-  color: white;
+  color: rgb(255, 255, 255);
   display: flex;
   align-items: center;
   padding: 10px;
@@ -24,4 +27,18 @@ body {
 .menu a .symbol {
   margin-right: 8px;
   font-size: 20px;
+}
+
+/* Media Query for small screens */
+@media (max-width: 600px) {
+  .menu {
+    flex-direction: column;
+  }
+  .menu a {
+    padding: 10px 0; /* Add top and bottom padding to create spacing between links */
+  }
+}
+details{
+  
+  background-color: brown;
 }
