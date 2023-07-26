@@ -1,32 +1,72 @@
 body {
-  margin: 0;
+  margin: auto;
   padding: 0;
+text-align: center;
 }
 
 .menu {
+  padding: 50px;
   background-color: goldenrod;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 60px;
+  height: 20px;
   font-size: 18px;
 }
-.menu ul{
+
+.menu ul {
   display: flex;
   list-style: none;
   flex-direction: row;
+  width: 80%;
+  justify-content: space-around;
 }
+
 .menu a {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   display: flex;
   align-items: center;
-  padding: 10px;
+  /* padding: 10px; */
+  
 }
 
 .menu a .symbol {
   margin-right: 8px;
   font-size: 20px;
+}
+
+.menu div {
+  background-color: white;
+  border: 1px solid black;
+  padding: 3px;
+  border-radius: 4px;
+  /* width: 100%; Make the divs take the full width of their container */
+  margin: 8px 0; /* Add margin around the divs to space them */
+}
+
+select {
+  font-size: 1.2rem;
+  background-color: white;
+  color: black;
+  border: none;
+  /* padding: 8px; */
+  cursor: pointer;
+  text-align: center;
+  width: 100%; /* Make the selects take the full width of their container */
+  /* margin: 8px 0; Add margin around the selects to space them */
+}
+
+select:focus {
+  outline: none; /* Remove the outline when the select is focused */
+}
+
+select option:first-child {
+  display: none; /* Hide the first option when the select is open */
+}
+select option{
+  padding:10px;
+  margin:10px;
 }
 
 /* Media Query for small screens */
@@ -38,7 +78,6 @@ body {
     padding: 10px 0; /* Add top and bottom padding to create spacing between links */
   }
 }
-details{
-  
-  background-color: brown;
+.material-symbols-outlined{
+  font-size: 50px;
 }
