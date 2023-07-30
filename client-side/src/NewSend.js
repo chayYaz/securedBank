@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const NewSend = () => {
+const NewSend = ({addressToSend}) => {
   const [formData, setFormData] = useState({
-    sender_account_number: "",
-    sender_branch: "",
     receiver_account_number: "",
     receiver_branch: "",
     amount: "",
@@ -23,8 +21,6 @@ const NewSend = () => {
     // Display a confirmation pop-up before sending the transfer details
     const confirmed = window.confirm(
       `Please confirm the transfer details:\n\n` +
-      `Sender Account Number: ${formData.sender_account_number}\n` +
-      `Sender Branch: ${formData.sender_branch}\n` +
       `Receiver Account Number: ${formData.receiver_account_number}\n` +
       `Receiver Branch: ${formData.receiver_branch}\n` +
       `Amount: ${formData.amount}\n` +
@@ -39,20 +35,22 @@ const NewSend = () => {
     try {
       // Get the current date from the computer
       const currentDate = new Date().toISOString().split("T")[0];
+      const sender_account_number=localStorage.getItem("account_number");
+      const sender_branch=localStorage.getItem("branch");
       // Add the current date to the form data
-      const dataToSend = { ...formData, date: currentDate };
+      const dataToSend = { ...formData, 
+        date: currentDate,
+        sender_account_number: sender_account_number,sender_branch:sender_branch};
   
       // Send data to the backend for insertion
       const response = await axios.post(
-        "http://localhost:3001/users/newSend",
+        addressToSend,
         dataToSend
       );
       console.log(response.data);
   
       // Clear the form after successful submission
       setFormData({
-        sender_account_number: "",
-        sender_branch: "",
         receiver_account_number: "",
         receiver_branch: "",
         amount: "",
@@ -66,26 +64,6 @@ const NewSend = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Sender Account Number:
-        <input
-          type="text"
-          name="sender_account_number"
-          value={formData.sender_account_number}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Sender Branch:
-        <input
-          type="text"
-          name="sender_branch"
-          value={formData.sender_branch}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
       <label>
         Receiver Account Number:
         <input

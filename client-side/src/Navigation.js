@@ -1,7 +1,19 @@
 import { BrowserRouter, Routes, Route ,Link,Outlet} from "react-router-dom";
+import React, { useState } from "react";
 const Navigation = () => {
+  
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenu = () => {
+    console.log("toggled");
+    setMenuVisible((prevMenuVisible) => !prevMenuVisible);
+    console.log(menuVisible);
+  };
   return (
-    <nav className="menu">
+    <div style={{ display: "flex", flexDirection: "row" }} className="menuDiv">
+    <span class="menu-icon" onClick={toggleMenu}  style={
+      { fontSize: "5rem"}} >☰</span>
+    <nav className={`menu  ${menuVisible ? "show" : ""}`}>
   <ul>
     <li>
       <div >
@@ -74,7 +86,7 @@ mail
     </li>
   </ul>
 </nav>
-
+</div>
   );
 };
 export default Navigation

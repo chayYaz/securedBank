@@ -1,15 +1,17 @@
 const express = require('express');
 const mysql2 = require('mysql2');
-//const cors = require('cors');
+const CryptoJS = require("crypto-js");
 const connection = require('./database'); 
 const router = express.Router();
 router.post("/api/login", (req, res) => { 
   console.log("in func");
   const { username, password, branch } = req.body;
+  const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
+  const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
   //if something returned it means password is right!!!
   const query =
       "SELECT name, password FROM user_accounts WHERE account_number = ? AND password = ? AND branch = ? LIMIT 1";
-    connection.query(query, [username, password, branch], (err, results) => {
+    connection.query(query, [username, decryptedPassword, branch], (err, results) => {
 
       if (err) {
         console.error("Error executing query:", err);

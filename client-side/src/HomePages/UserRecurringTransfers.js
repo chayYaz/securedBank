@@ -1,27 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { AiFillDelete } from "react-icons/ai";
 
 const UserRecurringTransfers = () => {
   const [transfers, setTransfers] = useState([]);
-let account_number=1234567890;
-let branch="Branch A"
-
-  useEffect(() => {
-    // Fetch all transfers for the specific user
-    const fetchTransfers = async () => {
-      try {
-        const response = await axios.post("http://localhost:3001/users/recurringTransfers", {
+  let account_number = localStorage.getItem("account_number");
+  let branch = localStorage.getItem("branch");
+  const fetchTransfers = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/users/recurringTransfers",
+        {
           user_account_number: account_number,
           user_account_branch: branch,
-        });
-        setTransfers(response.data);
-      } catch (error) {
-        console.error("Error fetching user transfers:", error);
-      }
-    };
-
+        }
+      );
+      setTransfers(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching user transfers:", error);
+    }
+  };
+  useEffect(() => {
+    // Fetch all transfers for the specific user
     fetchTransfers();
   }, []);
+
+  const handleDelete = async (transferId) => {
+    try {
+      await axios.delete(`http://localhost:3001/recurringTransfers/${transferId}`);
+      // Fetch transfers again after deleting to update the list
+      fetchTransfers();
+    } catch (error) {
+      console.error("Error deleting transfer:", error);
+    }
+  };
 
   return (
     <div>
@@ -32,10 +45,6 @@ let branch="Branch A"
         <ul>
           {transfers.map((transfer) => (
             <li key={transfer.id}>
-              Sender Account Number: {transfer.sender_account_number}
-              <br />
-              Sender Branch: {transfer.sender_branch}
-              <br />
               Receiver Account Number: {transfer.receiver_account_number}
               <br />
               Receiver Branch: {transfer.receiver_branch}
@@ -44,7 +53,9 @@ let branch="Branch A"
               <br />
               Reason: {transfer.reason}
               <br />
-
+              <button onClick={() => handleDelete(transfer.id)}>
+                <AiFillDelete />
+              </button>
               <hr />
             </li>
           ))}

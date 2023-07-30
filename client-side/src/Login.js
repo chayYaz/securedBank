@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
 const start = "http://localhost:3001";
+
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -12,17 +16,19 @@ const LoginPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // Send login credentials to the server for validation
+      const encryptedPassword = CryptoJS.AES.encrypt(formData.password, "my-secret-key").toString();
       const ans = await fetch(start+"/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData,password:encryptedPassword}),
       });
       const response = await ans.json();
       console.log("response:");
@@ -30,6 +36,9 @@ console.log(response);
       if (ans.status === 200) {
         // Login successful, handle the logged-in user as needed
         console.log("Login successful!");
+        localStorage.setItem("account_number", formData.username);
+        localStorage.setItem("branch", formData.branch);
+        navigate("/home")
       } else {
         // Login failed, display an error message or take appropriate action
         console.log("Login failed. Please check your credentials.");

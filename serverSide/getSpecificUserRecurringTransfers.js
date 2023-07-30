@@ -18,7 +18,10 @@ router.post('/users/recurringTransfers', async (req, res) => {
         console.error('Error fetching user transfers:', err);
         return res.status(500).json({ message: 'Error fetching user transfers' });
       }
-
+      console.log("recurring transfers are:");
+      console.log(results);
+      console.log("end"
+      );
       // Send the transfers data as JSON response
       res.json(results);
     });

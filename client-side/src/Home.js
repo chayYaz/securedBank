@@ -8,10 +8,11 @@ import Navigation from './Navigation';
 function Home() {
 
 
-
   return (
     <div className="App">
+      
       <Navigation/>
+      <p>amount of money of user is:</p>
       <Outlet />
       <HomeOperations/>
     </div>
