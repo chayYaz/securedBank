@@ -20,8 +20,8 @@ export default function HomeOperations() {
 
   const getOperations = async (howToSort) => {
     console.log("in get operation");
-    let branch="Branch A";
-    let accountNum=1234567890;
+    let branch=localStorage.getItem("branch");
+    let accountNum=localStorage.getItem("account_number");
     switch(howToSort){
     case "senderOperations":
       try {
