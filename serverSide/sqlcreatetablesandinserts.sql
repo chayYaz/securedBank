@@ -150,8 +150,7 @@ select * from recurring_transfers where  sender_account_number='1234567890';
 select * from operations;
 select * from user_accounts where account_number='1234567890';
 select * from user_accounts where account_number='2345678901';
-ALTER TABLE user_accounts MODIFY COLUMN id INT AUTO_INCREMENT;
-ALTER TABLE user_accounts AUTO_INCREMENT=1010;
-INSERT INTO user_accounts (password, money, name, account_number, branch) VALUES
-  ('pass11', 1000.00, 'ezra yakin', '111111111', 'Branch A');
-delete from user_accounts where account_number='111111111';
+#ALTER TABLE user_accounts MODIFY COLUMN id INT AUTO_INCREMENT;
+#ALTER TABLE user_accounts AUTO_INCREMENT=1010;
+#INSERT INTO user_accounts (password, money, name, account_number, branch) VALUES ('pass11', 1000.00, 'ezra yakin', '111111111', 'Branch A');
+#delete from user_accounts where account_number='111111111';

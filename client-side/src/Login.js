@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import logo from "./logobank.png"
+import loginImage from "./loginpageimage.jpg"
+import "./login.css"
 const start = "http://localhost:3001";
 
 const LoginPage = () => {
@@ -55,43 +58,52 @@ console.log(response);
   };
 
   return (
-    <div>
-      <h2>Login Page</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Branch:
-          <input
-            type="text"
-            name="branch"
-            value={formData.branch}
-            onChange={handleChange}
-            placeholder="Enter Branch"
-          />
-        </label>
-        <br />
-        <button type="submit">Login</button>
-      </form>
+    <div className="login-container">
+    <div className="background-container">
+      <img src={loginImage} alt="login image" />
+      <div className="overlay"></div>
     </div>
+    <div className="logoAndSlogan">
+      <img src={logo} alt="Bank Logo" className="bank-logo" />
+      <h1>welcome to Delphi Wealth Management</h1>
+    </div>
+    <div className="loginForm">
+      <h2 className="login-title">Login to Your Bank Account</h2>
+        <form onSubmit={handleSubmit} className="login-form">
+          <label>
+            account number:
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Branch:
+            <input
+              type="text"
+              name="branch"
+              value={formData.branch}
+              onChange={handleChange}
+              placeholder="Enter Branch"
+            />
+          </label>
+          <button type="submit">Login</button>
+        </form>
+        </div>
+      </div>
+  
+  
   );
 };
 

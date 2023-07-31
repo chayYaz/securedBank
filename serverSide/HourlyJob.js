@@ -2,25 +2,7 @@ const cron = require('node-cron');
 const axios = require('axios');
 const data=[]
 
-//  = [
-//   {
-//     sender_account_number: "1234567890",
-//     sender_branch: "Branch A",
-//     receiver_account_number: "2345678901",
-//     receiver_branch: "Branch B",
-//     amount: 200,
-//     reason: "Reason 1",
-//   },
-//   {
-//     sender_account_number: "9012345678",
-//     sender_branch: "Branch C",
-//     receiver_account_number: "8901234567",
-//     receiver_branch: "Branch B",
-//     amount: 300,
-//     reason: "Reason 2",
-//   },
-//   // Add more objects here...
-// ];
+
 // Function to call your insert code or the endpoint that triggers the insert
 const insertHourly = async () => {
   try {
