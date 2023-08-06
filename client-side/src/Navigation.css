@@ -1,0 +1,120 @@
+body {
+  margin: auto;
+  padding: 0;
+text-align: center;
+}
+
+.menu {
+  padding: 50px;
+  background-color: goldenrod;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 20px;
+  font-size: 18px;
+}
+
+.menu ul {
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  width: 80%;
+  justify-content: space-around;
+}
+
+.menu a {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  /* padding: 10px; */
+  
+}
+
+.menu a .symbol {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.menu div {
+  background-color: white;
+  border: 1px solid black;
+  padding: 3px;
+  border-radius: 4px;
+  /* width: 100%; Make the divs take the full width of their container */
+  margin: 8px 0; /* Add margin around the divs to space them */
+}
+
+select {
+  font-size: 1.2rem;
+  background-color: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+
+/* Style for options */
+select option {
+  font-size: 1rem;
+  padding: 10px;
+  margin: 10px;
+}
+
+select:focus {
+  outline: none; /* Remove the outline when the select is focused */
+}
+
+select option:first-child {
+  display: none; /* Hide the first option when the select is open */
+}
+
+
+/* Media Query for small screens */
+/* Rest of the CSS remains the same */
+
+/* Media Query for small screens */
+@media (max-width: 1500px) {
+  .menu, .menu ul {
+    flex-direction: column;
+    width: auto;
+    background-color: goldenrod;
+    position: relative;
+    /* padding: 10px; */
+    z-index: 9999;
+    height: auto;
+  }
+  .menu{
+    display: none;
+  }
+  .menu a {
+    padding: 10px 0; /* Add top and bottom padding to create spacing between links */
+  }
+  select {
+    /* Remove padding: 0; */
+    font-size: 1.2rem; /* Set the desired font size for the select element */
+  }
+  select option,label {
+    font-size: 1.2rem; /* Set the desired font size for options */
+    padding: 0; /* Set padding to zero */
+    margin: 0; /* Set margin to zero */
+  }
+  .show{
+    display:flex;
+  }
+  .menuDiv{
+    position: fixed; /* Use position: fixed to overlay the menu on top of the page */
+    top: 0; /* Position the menu at the top of the viewport */
+    left: 0; /* Position the menu at the left of the viewport */
+    z-index: 9999;
+  }
+
+}
+
+.material-symbols-outlined{
+  font-size: 50px;
+}
+.show{
+  display:flex;
+}
