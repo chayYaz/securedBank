@@ -79,37 +79,6 @@ select * from user_accounts
 select * from operations where (sender_account_number=1234567890 and sender_branch='Branch A') or 
 (receiver_account_number=1234567890 and receiver_branch='Branch A');
 select * from operations where (sender_account_number=1234567890 and sender_branch='Branch A');
-#drop table operations
-
--- CREATE TABLE atms (
---   atm_id INT AUTO_INCREMENT PRIMARY KEY,
---   atm_name VARCHAR(255) NOT NULL,
---   location VARCHAR(255) NOT NULL,
--- );
--- INSERT INTO atms (atm_name, location) VALUES
---   ('ATM-001', 'Main Street, City A'),
---   ('ATM-002', 'Central Square, City B', true, true, true),
---   ('ATM-003', 'Shopping Mall, City C', false, true, true),
---   ('ATM-004', 'Park Avenue, City D', true, false, true),
---   ('ATM-005', 'Business District, City E', true, true, true);
---   
---   
--- CREATE TABLE credit_cards (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   user_account_id varchar(20) NOT NULL,
---   card_number VARCHAR(16) NOT NULL,
---   expiration_date DATE NOT NULL,
---   cvv VARCHAR(3) NOT NULL,
---   branch VARCHAR(255) NOT NULL,
---   pin VARCHAR(4) NOT NULL,
---   FOREIGN KEY (user_account_id, branch) REFERENCES user_accounts(account_number, branch)
--- );
--- INSERT INTO credit_cards (user_account_id, card_number, expiration_date, cvv, branch, pin) VALUES
---   (1, '1234567812345678', '2025-12-31', '123', 'Branch A', '5678'),
---   (3, '8765432187654321', '2024-11-30', '456', 'Branch A', '4321'),
---   (5, '5678567856785678', '2023-09-30', '789', 'Branch B', '1234'),
---   (7, '4321432143214321', '2026-06-30', '234', 'Branch A', '8765'),
---   (9, '9876987698769876', '2024-08-31', '567', 'Branch C', '2345');
   
   select * from user_accounts where account_number=1234567890;
   
@@ -150,7 +119,49 @@ select * from recurring_transfers where  sender_account_number='1234567890';
 select * from operations;
 select * from user_accounts where account_number='1234567890';
 select * from user_accounts where account_number='2345678901';
-#ALTER TABLE user_accounts MODIFY COLUMN id INT AUTO_INCREMENT;
-#ALTER TABLE user_accounts AUTO_INCREMENT=1010;
-#INSERT INTO user_accounts (password, money, name, account_number, branch) VALUES ('pass11', 1000.00, 'ezra yakin', '111111111', 'Branch A');
-#delete from user_accounts where account_number='111111111';
+
+
+
+
+CREATE TABLE branches (
+  branch_name VARCHAR(255) primary key,
+  location VARCHAR(200) NOT NULL
+);
+INSERT INTO branches (branch_name, location) VALUES
+('Branch A', 'Location A'),
+('Branch B', 'Location B'),
+('Branch C', 'Location C');
+
+
+CREATE TABLE branch_administrators (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  phone VARCHAR(20),
+  password VARCHAR(100) NOT NULL, -- Adding the password field
+  branch VARCHAR(255) NOT NULL unique,
+  FOREIGN KEY (branch) REFERENCES branches(branch_name)
+);
+-- Inserting data for branch administrator 1
+
+
+
+#name is unique
+ALTER TABLE user_accounts ADD FOREIGN KEY (branch) REFERENCES branches(branch_name);
+
+select * from branch_administrators;
+
+
+
+INSERT INTO branch_administrators (name, email, phone, branch,password) VALUES
+('Admin A', 'admin_a@example.com', '+123456789', 'Branch A','1234'), -- Assigning Admin A to Branch A
+('Admin B', 'admin_b@example.com', '+987654321', 'Branch B','2468'), -- Assigning Admin B to Branch B
+('Admin C', 'admin_c@example.com', '+555555555','Branch C','1020'); -- Assigning Admin C to Branch C
+
+select * from branch_administrators where password=1234 and branch='Branch A' and id=1;
+SELECT * FROM user_accounts INNER join branch_administrators ON branch_administrators.branch =  user_accounts.branch where branch_administrators.id=1
+SELECT  user_accounts.name,user_accounts.money,user_accounts.account_number FROM user_accounts INNER JOIN branch_administrators ON branch_administrators.branch = user_accounts.branch WHERE branch_administrators.id = 1;
+select * from user_accounts;
+select * from branch_administrators
+select * from operations where (sender_account_number=  1234567890 or receiver_account_number= 1234567890 ) and way_of_payment='Credit Card'
+select * from recurring_Transfers where sender_account_number= 1234567890

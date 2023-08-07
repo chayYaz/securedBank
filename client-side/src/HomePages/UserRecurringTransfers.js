@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AiFillDelete } from "react-icons/ai";
-
+import "./UserRecurringTransfers.css"
 const UserRecurringTransfers = () => {
   const [transfers, setTransfers] = useState([]);
   let account_number = localStorage.getItem("account_number");
@@ -37,26 +37,38 @@ const UserRecurringTransfers = () => {
   };
 
   return (
-    <div>
+    <div className="user-recurring-transfers">
       <h2>All Recurring Transfers for User {account_number}</h2>
       {transfers.length === 0 ? (
         <p>No transfers found.</p>
       ) : (
         <ul>
           {transfers.map((transfer) => (
-            <li key={transfer.id}>
-              Receiver Account Number: {transfer.receiver_account_number}
-              <br />
-              Receiver Branch: {transfer.receiver_branch}
-              <br />
-              Amount: {transfer.amount}
-              <br />
-              Reason: {transfer.reason}
-              <br />
+            <li key={transfer.id} >
+                <div className="transfer-row">
+  <div className="transfer-details">
+    <div className="amount">
+      <span>Amount:</span> {transfer.amount}
+    </div>
+    <div>
+      <span>Receiver Account Number:</span> {transfer.receiver_account_number}
+    </div>
+    <div>
+      <span>Receiver Branch:</span> {transfer.receiver_branch}
+    </div>
+    <div>
+      <span>Reason:</span> {transfer.reason}
+    </div>
+  </div>
+ 
+</div>
+
+              <div className="buttonDelete">
               <button onClick={() => handleDelete(transfer.id)}>
-                <AiFillDelete />
-              </button>
-              <hr />
+                  <AiFillDelete /> delete
+                </button>
+              </div>
+              
             </li>
           ))}
         </ul>
