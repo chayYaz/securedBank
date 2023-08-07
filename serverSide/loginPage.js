@@ -11,7 +11,7 @@ router.post("/api/login", (req, res) => {
   //if something returned it means password is right!!!
   const query =
       "SELECT name, password FROM user_accounts WHERE account_number = ? AND password = ? AND branch = ? LIMIT 1";
-    connection.query(query, [username, decryptedPassword, branch], (err, results) => {
+      connection.query(query, [username, decryptedPassword, branch], (err, results) => {
 
       if (err) {
         console.error("Error executing query:", err);
