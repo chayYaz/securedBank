@@ -54,7 +54,7 @@
 }
 
 .menu a:hover {
-  color: #ffd700; /* Gold */
+  font-size: 22px; /* Increase font size on hover */
 }
 
 

@@ -92,7 +92,7 @@ body {
 
 .operations_list_user li:hover {
   transition: 0.3s; /* Adjust the transition duration as needed */
-  background-color: #a69191;
+  background-color: #c3c3c3; /* Grey */
   width: fit-content; /* Set the width to fit the content */
   margin-left: 10px; /* Add some margin to move the element to the center */
 }
