@@ -6,21 +6,33 @@ const UserRecurringTransfers = () => {
   const [transfers, setTransfers] = useState([]);
   let account_number = localStorage.getItem("account_number");
   let branch = localStorage.getItem("branch");
+
   const fetchTransfers = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3001/users/recurringTransfers",
-        {
+      const response = await fetch("http://localhost:3001/users/recurringTransfers", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           user_account_number: account_number,
           user_account_branch: branch,
-        }
-      );
-      setTransfers(response.data);
-      console.log(response.data);
+        }),
+      });
+  
+      if (response.status==200) {
+        const data = await response.json();
+       
+        setTransfers(data);
+        console.log(data);
+      } else {
+        console.error("Error fetching user transfers:", await response.text());
+      }
     } catch (error) {
       console.error("Error fetching user transfers:", error);
     }
   };
+  
   useEffect(() => {
     // Fetch all transfers for the specific user
     fetchTransfers();
@@ -28,13 +40,23 @@ const UserRecurringTransfers = () => {
 
   const handleDelete = async (transferId) => {
     try {
-      await axios.delete(`http://localhost:3001/recurringTransfers/${transferId}`);
+      await fetch("http://localhost:3001/recurringTransfers/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: transferId }),
+      });
       // Fetch transfers again after deleting to update the list
-      fetchTransfers();
+      // fetchTransfers();
+      setTransfers((prevTransfers) =>
+      prevTransfers.filter((transfer) => transfer.id !== transferId)
+    );
     } catch (error) {
       console.error("Error deleting transfer:", error);
     }
   };
+  
 
   return (
     <div className="user-recurring-transfers">

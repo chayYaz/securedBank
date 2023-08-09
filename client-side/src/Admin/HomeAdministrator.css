@@ -1,0 +1,141 @@
+.homeAdmin{
+  font-size: 1.2rem;
+}
+.homeAdmin h1{
+  font-size: 2rem;
+}
+/* Main container for the entire page */
+.homeAdmin ,.homeAdmin div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.newCustForm form div{
+  background-color:#c9ad0e;
+}
+/* Section for adding a new customer */
+.newCustForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f7f7f7; /* Light gray background color */
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.newCustForm h2 {
+  font-size: 1.6rem;
+  color:#c9ad0e;  /* Gold color for the title */
+  margin-bottom: 10px;
+}
+
+.newCustForm form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Add gap between form elements */
+}
+
+.newCustForm label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.newCustForm input[type="text"],
+.newCustForm input[type="email"],
+.newCustForm input[type="tel"],
+.newCustForm input[type="password"] {
+  padding: 8px;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  width: 100%; /* Take up full width */
+}
+
+.newCustForm button[type="submit"] {
+  background-color: #c9ad0e;  /* Gold color for the button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newCustForm button[type="submit"]:hover {
+  background-color:#958110; /* Darker gold color on hover */
+}
+
+/* Section for the list of customers */
+.customerList {
+  background-color: #fff; /* White background color */
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.customerList h2 {
+  font-size: 1.6rem;
+  color: #c9ad0e; /* Gold color for the title */
+  margin-bottom: 20px;
+}
+
+.customerList ul {
+  list-style: none;
+  padding: 0;
+}
+
+.customerList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eaeaeac4;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.customerList .customer-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.customerList .customer-details span {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.customerList .amount {
+  font-size: 18px;
+  color: #d32f2f; /* Red color for the amount */
+}
+
+.customerList button {
+  background-color: #f44336; /* Red color for the delete button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin:10px;
+  transition: background-color 0.3s;
+}
+
+.customerList button:hover {
+  background-color: #d32f2f; /* Darker red color on hover */
+}
+@media screen and (min-width: 768px) {
+  /* Increase the form width and adjust spacing */
+  .newCustForm {
+    width: 500px;
+    margin: 40 auto;
+    
+  }
+  .customerList{
+    width: 500px;
+    margin: 40 auto;
+  }
+}

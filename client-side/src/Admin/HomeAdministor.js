@@ -1,6 +1,7 @@
 // HomeAdministor.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./HomeAdministrator.css"
 import CryptoJS from "crypto-js";
 const HomeAdministor = () => {
   const [newCustomer, setNewCustomer] = useState({
@@ -56,7 +57,7 @@ const HomeAdministor = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...newCustomer, password: encryptedPassword, branch: branch }),
+      body: JSON.stringify({ ...newCustomer, password: encryptedPassword, branch: branch}),
     })
     .then((response) => {
       if (!(response.status===200)) {
@@ -72,7 +73,9 @@ const HomeAdministor = () => {
         confirm_password: "",
       });
       // Refresh the customer list after adding
-      fetchCustomers();
+      // fetchCustomers();
+      setCustomers((prevCustomers) => [...prevCustomers, {...newCustomer,money:100}]);
+
     })
     .catch((error) => {
       console.error("Error adding customer:", error);
@@ -80,25 +83,31 @@ const HomeAdministor = () => {
   };
   
 
-  const handleDeleteCustomer = async (customerId,customerBranch) => {
+  const handleDeleteCustomer = async (customerAccount,customerBranch) => {
     try {
       await fetch(`http://localhost:3001/managerOperations/customers/delete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json", // Add this line
         },
-        body: JSON.stringify({ customerId: customerId, customerBranch: customerBranch }),
+        body: JSON.stringify({ customerId: customerAccount, customerBranch: customerBranch }),
       });
       // Refresh the customer list after deleting
-      fetchCustomers();
+      // fetchCustomers();
+      setCustomers((prev) =>
+  prev.filter((customer) => customer.account_number !== customerAccount)
+);
+    ;
+
     } catch (error) {
       console.error("Error deleting customer:", error);
     }
   };
 
   return (
-    <div>
-      <div>
+    <div className="homeAdmin">
+      <h1>Have a nice day at work today</h1>
+      <div className="newCustForm">
         <h2>Add New Customer</h2>
         <form>
           <div>
@@ -131,7 +140,7 @@ const HomeAdministor = () => {
 
       </div>
 
-      <div>
+      <div className="customerList">
         <h2>Customer List</h2>
         <ul>
           {customers.map((customer,idx) => (

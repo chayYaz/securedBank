@@ -14,14 +14,14 @@
   color: #ffd700; /* Gold color for the title */
 }
 
-form label {
+.new-send-container form label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-form input[type="text"],
-form input[type="number"] {
+.new-send-container form input[type="text"],
+.new-send-container form input[type="number"] {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
@@ -29,7 +29,7 @@ form input[type="number"] {
   border-radius: 4px;
 }
 
-form input[type="submit"] {
+.new-send-container form input[type="submit"] {
   background-color: #ffd700; /* Gold color for the button */
   color: white;
   border: none;
@@ -39,6 +39,6 @@ form input[type="submit"] {
   transition: background-color 0.3s;
 }
 
-form input[type="submit"]:hover {
+.new-send-container form input[type="submit"]:hover {
   background-color: #f0c400; /* Darker gold color on hover */
 }

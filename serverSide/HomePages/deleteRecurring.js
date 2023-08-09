@@ -1,13 +1,12 @@
-// server.js (or wherever your server-side code is)
+
 
 const express = require("express");
-const mysql2 = require("mysql2");
 const connection = require("../database");
 const router = express.Router();
-
+//I tried with post and something did not work properly
 // Delete a transfer by its ID
-router.delete("/recurringTransfers/:id", async (req, res) => {
-  const transferId = req.params.id;
+router.post("/recurringTransfers/delete", async (req, res) => {
+  const transferId = req.body.id;
   const query = "DELETE FROM recurring_transfers WHERE id = ?";
   try {
     connection.query(query, [transferId]);
@@ -17,5 +16,6 @@ router.delete("/recurringTransfers/:id", async (req, res) => {
     return res.status(500).json({ message: "Database error" });
   }
 });
+
 
 module.exports = router;
