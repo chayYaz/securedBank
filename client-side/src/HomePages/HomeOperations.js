@@ -65,7 +65,6 @@ export default function HomeOperations() {
 
   const sortUserOperations = () => {
     // the function return a sorted copy of the userOperations array based on the selected sorting criteria
-    //let sortedOperations = [...userOperations];
     let sortedOperations = [...allOperations];
 
     switch(sortingCriteria) {
@@ -96,7 +95,6 @@ export default function HomeOperations() {
     }
     let len= userOperations.length
     sortedOperations = sortedOperations.slice(0, len);
-   //setUserOperations(sortedOperations);
     return sortedOperations;
   };
 
