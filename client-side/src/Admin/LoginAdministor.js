@@ -34,7 +34,7 @@ function LoginAdministor() {
       });
       const response = await ans.json();
       console.log("response:");
-console.log(response);
+      console.log(response);
       if (ans.status === 200) {
         // Login successful, handle the logged-in user as needed
         console.log("Login successful!");

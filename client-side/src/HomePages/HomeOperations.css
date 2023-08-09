@@ -1,142 +1,169 @@
 body {
-    background-color: #faf3e1;
-  }
-  
-  .operations_container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .amountMoney_header {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #ff8c00; /* Gold */
-  }
-  
-  .operations_header {
-    font-size: 24px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    color: #ffd700; /* Gold */
-  }
-  
-  /* Main container with flex layout */
-  .main_container {
-    display: flex;
-    flex-wrap: wrap; /* Allow the sections to wrap to the next row if the screen is narrow */
-    justify-content: flex-start; /* Align sections to the left */
-    gap: 20px; /* Add gap between the sections */
-  }
-  
-  .left_section {
-    flex: 10; /* Take up available space in the left section */
-  }
-  
-  .sorting_section {
-    margin-bottom: 35px;
-    text-align: left;
-  }
-  
-  .sorting_section label {
-    font-weight: bold;
-    margin-right: 10px;
-    color: #808080; /* Grey */
-    font-size: 32px; /* Enlarge the cube of sortingCriteria */
-    text-align: center;
-  }
-  
-  .sorting_section select {
-    padding: 10px; /* Increase padding for larger cube size */
-    font-size: 20px; /* Enlarge the cube of sortingCriteria */
-    border-radius: 10px; /* Increase border-radius for rounded corners */
-    background-color: #eaeaea;
-    color: #333;
-  }
-  
-  .sorting_section select:hover {
-    background-color: #d4d4d4;
-  }
-  
-  .sorting_section select option {
-    background-color: #f2f2f2;
-    color: #333;
-  }
-  
-  .sorting_section select option:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .right_section {
-    flex: 2; /* Take up more space in the right section to allow for wider content */
-  }
-  
-  .operations_list_user {
-    padding: 0;
-    text-align: center; /* Center the list items */
-  }
-  
+  background-color: #faf3e1;
+}
+
+.operations_container {
+  max-width: 100%; /* Adjust to fit smaller screens */
+  margin: 15px auto;
+  padding: 10px; /* Reduce padding for smaller screens */
+}
+
+.amountMoney_header {
+  font-size: 28px; /* Adjust font size for smaller screens */
+  font-weight: bolder;
+  margin-bottom: 5px; /* Reduce margin for smaller screens */
+  text-align: center; 
+  color: #945202; /* Gold */
+}
+
+.operations_header {
+  font-size: 24px; /* Adjust font size for smaller screens */
+  margin-top: 5px; /* Reduce margin for smaller screens */
+  margin-bottom: 5px; /* Reduce margin for smaller screens */
+  text-align: center; 
+  color: #ffd700; /* Gold */
+}
+
+/* Main container with flex layout */
+.main_container {
+  display: flex;
+  flex-direction: column; /* Stack sections vertically on smaller screens */
+  gap: 10px; /* Reduce gap for smaller screens */
+  margin-top: 30px; /* Adjust margin for smaller screens */
+}
+
+.left_section {
+  width: 100%; /* Take up full width on smaller screens */
+}
+
+.sorting_section {
+  margin-bottom: 35px; /* Reduce margin for smaller screens */
+  text-align: center; /* Center text on smaller screens */
+}
+
+.sorting_section label {
+  font-weight: bold;
+  margin-right: 5px;/* Remove right margin on smaller screens */
+  color: #808080; /* Grey */
+  font-size: 24px; /* Enlarge the cube of sortingCriteria , Adjust font size for smaller screens */
+}
+
+.sorting_section select {
+  padding: 10px; /* Increase padding for larger cube size */
+  font-size: 20px; /* Enlarge the cube of sortingCriteria */
+  border-radius: 10px; /* Increase border-radius for rounded corners */
+  background-color: #eaeaea;
+  color: #794a26;
+}
+
+.sorting_section select:hover {
+  background-color: #d4d4d4;
+}
+
+.sorting_section select option {
+  background-color: #f2f2f2;
+  color: #794a26;
+}
+
+.sorting_section select option:hover {
+  background-color: #e0e0e0;
+}
+
+.right_section {
+  width: 100%; /* Take up full width on smaller screens */
+  text-align: center; 
+}
+
+.operations_list_user {
+  padding: 0;
+}
+
+.operations_list_user li {
+  counter-increment: item;
+  margin-bottom: 15px; /* Reduce margin for smaller screens */
+  padding: 20px; /* Reduce padding for smaller screens */
+  font-size: 20px; /* Adjust font size for smaller screens */
+  position: relative; /* Add position property for the hover effect */
+}
+
+.operations_list_user p {
+  margin: 10px; /* Adjust margin for smaller screens */
+}
+
+.operations_list_user li:hover {
+  transition: 0.3s; /* Adjust the transition duration as needed */
+  background-color: #a69191;
+  width: fit-content; /* Set the width to fit the content */
+  margin-left: 10px; /* Add some margin to move the element to the center */
+}
+
+.operations_list_user li::before {
+  font-weight: bold;
+  margin-right: 5px; /* Adjust margin for smaller screens */
+  color: #fff;
+  background-color: #c3b14fa0; /* Gold */
+  padding: 8px; /* Reduce padding for smaller screens */
+  border-radius: 50%;
+  position: absolute; /* Add position property to the ::before pseudo-element */
+  left: -25px; /* Adjust the positioning of the ::before element */
+  top: 50%; /* Vertically center the ::before element */
+  transform: translateY(-50%); /* Center the ::before element vertically */
+}
+
+.loading_message {
+  font-style: italic;
+}
+
+.moreLinks {
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size for smaller screens */
+  font-family: Arial, Helvetica, sans-serif;
+  color: #584b00a0;
+}
+
+#moreOperation{
+ margin-left: 30px;
+ font-weight: bolder;
+ font-size: 20px; 
+}
+
+
+@media (max-width: 768px) {
   .operations_list_user li {
-    counter-increment: item;
-    margin-bottom: 20px; /* Increase margin for larger cube size */
-    display: flex;
-    align-items: center;
-    border-radius: 10px; /* Increase border-radius for rounded corners */
-    padding: 30px; /* Increase padding for larger cube size */
-    background-color: #ededec; /* Silver */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 24px; /* Enlarge the cube of operations_list_user */
-  }
-  
-  .operations_list_user li input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .operations_list_user li.completed {
-    background-color: #c7f5c7;
-  }
-  
-  .operations_list_user li:hover {
-    background-color: #e0e0e0;
+    font-size: 16px;
   }
   
   .operations_list_user li::before {
-    content: counter(item) ".";
-    font-weight: bold;
-    margin-right: 10px;
-    color: #fff;
-    background-color: #c3b14fa0; /* Gold */
-    padding: 12px; /* Increase padding for larger cube size */
-    border-radius: 50%;
+    font-size: 14px;
+    left: -20px;
   }
-  
-  .loading_message {
-    font-style: italic;
+}
+@media (max-width: 350px) {
+  .amountMoney_header {
+    font-size: 18px;
   }
-  
-  /* Add media queries to adjust the layout for smaller screens */
-  /* For example, when the screen width is less than 500px */
-  @media (max-width: 500px) {
-    .main_container {
-      flex-direction: column; /* Stack the sections vertically */
-    }
-  
-    .left_section,
-    .right_section {
-      width: 100%; /* Take up full width when stacked */
-    }
-  
-    .amountMoney_header {
-      font-size: 20px;
-    }
-  
-    .operations_header {
-      font-size: 20px;
-    }
-  
-    .sorting_section label {
-      font-size: 18px;
-    }
+
+  .operations_header {
+    font-size: 18px;
   }
-  
+
+  .sorting_section label {
+    font-size: 16px;
+  }
+
+  .sorting_section select {
+    font-size: 14px; /* Adjust font size for even smaller screens */
+  }
+
+  .operations_list_user li {
+    font-size: 18px; /* Adjust font size for even smaller screens */
+  }
+
+  .operations_list_user p {
+    margin: 8px; /* Adjust margin for even smaller screens */
+  }
+
+  .moreLinks {
+    font-size: 14px; /* Adjust font size for even smaller screens */
+  }
+}

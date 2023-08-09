@@ -12,58 +12,54 @@ const Navigation = () => {
   };
   return (
     <div style={{ display: "flex", flexDirection: "row" }} className="menuDiv">
-    <span class="menu-icon" onClick={toggleMenu}  style={
-      { fontSize: "5rem"}} >☰</span>
-    <nav className={`menu  ${menuVisible ? "show" : ""}`}>
-  <ul>
+      <span className="menu-icon" onClick={toggleMenu}  style={
+        { fontSize: "5rem"}} >☰</span>
+      <nav className={`menu  ${menuVisible ? "show" : ""}`}>
+      <ul>
 
-      <li>
-        <div>
-      <Link to="./addRecurringTransfer">
-      add Recurring Transfer
-      </Link>
-      </div>
-    </li>
-    <li>
-      <div>
-      <Link to="./recurringTransfer">Recurring Transfers</Link>
-      </div>
-    </li>
-    <li>
-      <div>
-    <span class="material-symbols-outlined">credit_score</span>
-    <Link to="./homeOperations">
-       Recent operations
-     </Link>
-     </div>
-    </li>
-    <li>
-      <div>
-        <span class="material-symbols-outlined">
-          receipt_long
-        </span>
-        <Link to="./rateReport">Rate Report</Link>
-    </div>
-    </li>
-    <li>
-    <div>
-    <Link to="./oneTimeSend">
-      One-Time Transfer
-    </Link>
-    </div>
-    </li>
-    <li>
-    <div>
-    <Link to="/" onClick={() => 
-      localStorage.clear()
-  }>
-      logout
-    </Link>
-    </div>
-    </li>
-  </ul>
-</nav>
-</div>
+          <li>
+            <div><span className="material-symbols-outlined">currency_exchange</span>
+              <Link to="./addRecurringTransfer">add Recurring Transfer </Link>
+            </div>
+          </li>
+        <li>
+          <div>
+          <span className="material-symbols-outlined">sync_alt</span>
+            <Link to="./recurringTransfer">Recurring Transfers</Link>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span className="material-symbols-outlined">credit_score</span>
+            <Link to="./homeOperations">
+              Recent operations
+            </Link>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span className="material-symbols-outlined">receipt_long</span>
+            <Link to="./rateReport">Rate Report</Link>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span className="material-symbols-outlined">add</span><span className="material-symbols-outlined">trending_flat </span>
+            <Link to="./oneTimeSend"> One-Time Transfer </Link>
+          </div>
+        </li>
+        <li>
+          <div>
+          <span className="material-symbols-outlined">logout</span>
+            <Link to="/" onClick={() => 
+              localStorage.clear() }>
+              logout
+            </Link>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </div>
   );
 };
 export default Navigation
