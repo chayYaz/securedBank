@@ -41,7 +41,7 @@ console.log(response);
         console.log("Login successful!");
         localStorage.setItem("account_number", formData.username);
         localStorage.setItem("branch", formData.branch);
-        navigate("/home")
+        navigate("/home/homeOperations")
       } else {
         // Login failed, display an error message or take appropriate action
         console.log("Login failed. Please check your credentials.");

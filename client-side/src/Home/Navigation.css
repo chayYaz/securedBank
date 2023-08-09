@@ -1,120 +1,97 @@
-body {
-  margin: auto;
-  padding: 0;
-text-align: center;
+*{
+  font-size: 20px;
+}
+
+.menuDiv {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: #282c34;
+  color: white;
+}
+
+.menu-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-right: 70px;
+  margin-left: 30px;
 }
 
 .menu {
-  padding: 50px;
-  background-color: goldenrod;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 20px;
-  font-size: 18px;
+  display: none;
+}
+
+.menu.show {
+  display: block;
 }
 
 .menu ul {
-  display: flex;
   list-style: none;
-  flex-direction: row;
-  width: 80%;
-  justify-content: space-around;
+  padding: 0;
+  display: flex; /* Add this line to make the <li> elements flex items */
+  flex-direction: row; /* Default to column for smaller screens */
+}
+
+.menu li {
+  margin: 10px 20px;
+}
+
+.menu div {
+  display: flex;
+  align-items: center;
+}
+
+.material-symbols-outlined {
+  font-size: 1.5rem;
+  margin-right: 10px;
 }
 
 .menu a {
   text-decoration: none;
-  color: rgb(0, 0, 0);
-  display: flex;
-  align-items: center;
-  /* padding: 10px; */
-  
+  color: white;
+  font-size: 1rem;
+  transition: color 0.3s;
 }
 
-.menu a .symbol {
-  margin-right: 8px;
-  font-size: 20px;
+.menu a:hover {
+  color: #ffd700; /* Gold */
 }
 
-.menu div {
-  background-color: white;
-  border: 1px solid black;
-  padding: 3px;
-  border-radius: 4px;
-  /* width: 100%; Make the divs take the full width of their container */
-  margin: 8px 0; /* Add margin around the divs to space them */
+
+@media only screen and (max-width: 1200px) {
+  .menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex; /* Add this line to make the <li> elements flex items */
+    flex-direction: column; /* Default to column for smaller screens */
+  }
 }
+@media (max-width: 768px) {
 
-/* select {
-  font-size: 1.2rem;
-  background-color: white;
-  color: black;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  width: 100%;
-} */
-
-/* Style for options */
-/* select option { */
-  /* font-size: 1rem;
-  padding: 10px;
-  margin: 10px;
-} */
-/* 
-select:focus {
-  outline: none; /* Remove the outline when the select is focused */
-/* }  */
-
-/* select option:first-child {
-  display: none; /* Hide the first option when the select is open */
-/* } */ 
-
-
-/* Media Query for small screens */
-/* Rest of the CSS remains the same */
-
-/* Media Query for small screens */
-@media (max-width: 1500px) {
-  .menu, .menu ul {
-    flex-direction: column;
-    width: auto;
-    background-color: goldenrod;
-    position: relative;
-    /* padding: 10px; */
-    z-index: 9999;
-    height: auto;
-  }
-  .menu{
-    display: none;
-  }
-  .menu a {
-    padding: 10px 0; /* Add top and bottom padding to create spacing between links */
-  }
-  select {
-    /* Remove padding: 0; */
-    font-size: 1.2rem; /* Set the desired font size for the select element */
-  }
-  /* select option,label {
-    font-size: 1.2rem;
-    padding: 0; 
-    margin: 0; 
-  } */
-  .show{
-    display:flex;
-  }
   .menuDiv{
-    position: fixed; /* Use position: fixed to overlay the menu on top of the page */
-    top: 0; /* Position the menu at the top of the viewport */
-    left: 0; /* Position the menu at the left of the viewport */
-    z-index: 9999;
+    margin-bottom:60px;
   }
 
-}
+  .menu-icon {
+    font-size: 3rem;
+  }
 
-.material-symbols-outlined{
-  font-size: 50px;
-}
-.show{
-  display:flex;
+  .menu {
+    position: absolute;
+    top: 70px; /* Adjust the top position as needed */
+    left: 0;
+    width: 100%;
+    background-color: #282c34;
+    z-index: 1;
+    text-align: center;
+  }
+
+  .menu ul {
+    padding: 20px;
+  }
+
+  .menu li {
+    margin: 20px 0;
+  }
+ 
 }

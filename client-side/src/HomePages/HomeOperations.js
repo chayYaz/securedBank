@@ -15,20 +15,13 @@ export default function HomeOperations() {
   const [nameAndMoneyFlag , setNameAndMoneyFlag] = useState(false);
   
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
-  const initialLoadCount = 5; // Number of photos to load initially
-  const loadCountIncrement = 7; // Number of additional photos to load on each "Load More" click
+  const initialLoadCount = 5; // Number of operations to load initially
+  const loadCountIncrement = 7; // Number of additional operations to load on each "Load More" click
 
   useEffect(() => {
     getOperations();
     getClientNameAndMoney();
   }, []);
-
-/*   const addOperationsToDisplay = () => {
-    if(allOperations.length !== 0) {
-      //setNumOperations(prevNum => prevNum + 4);
-      setCurrentPage(prevNum => prevNum + 1);
-    }
-  }; */
 
   const handleLoadMore = () => {
     const currentLength = userOperations.length;
@@ -60,7 +53,6 @@ export default function HomeOperations() {
       console.log(user_Operations);
       setUserOperations(user_Operations.slice(0, initialLoadCount));
       setLoadMoreVisible(user_Operations.length > initialLoadCount);
-     // getAmount();
     } catch (error) {
       console.log("Error:", error);
     }
@@ -72,28 +64,28 @@ export default function HomeOperations() {
   };
 
   const sortUserOperations = () => {
-    // the function return a sorted copy of the userTodos array based on the selected sorting criteria
-    let sortedOperations = [...userOperations];
+    // the function return a sorted copy of the userOperations array based on the selected sorting criteria
+    let sortedOperations = [...allOperations];
 
     switch(sortingCriteria) {
       case "all_operations":
         sortedOperations.sort((a, b) => b.date - a.date);
         break; 
       case "Cash":
-        sortedOperations = userOperations.filter((operation) => operation.way_of_payment === "Cash");
+        sortedOperations = allOperations.filter((operation) => operation.way_of_payment === "Cash");
         break;    
       case "Online_Transfer":
-        sortedOperations = userOperations.filter((operation) => operation.way_of_payment === "Online Transfer");
+        sortedOperations = allOperations.filter((operation) => operation.way_of_payment === "Online Transfer");
         break;
       case "Credit_Card":
-        sortedOperations = userOperations.filter((operation) => operation.way_of_payment === "Credit_Card");
+        sortedOperations = allOperations.filter((operation) => operation.way_of_payment === "Credit Card");
         break;
       case "to_account":
-        sortedOperations = userOperations.filter((operation) => operation.receiver_account_number === account_number ); // will return Transfers to my account
+        sortedOperations = allOperations.filter((operation) => operation.receiver_account_number === account_number && operation.receiver_branch === branch); // will return Transfers to my account
         break;   
       case "from_account":
         // will return Transfers from my account
-        sortedOperations = userOperations.filter((operation) => operation.sender_account_number === account_number &&  operation.plus_minus === "minus" ); 
+        sortedOperations = allOperations.filter((operation) => operation.sender_account_number === account_number && operation.sender_branch === branch); 
         break;
       case  "all_operations_descending":
         sortedOperations.sort((a, b) => a.date - b.date);// will return all operations in descending order
@@ -101,6 +93,8 @@ export default function HomeOperations() {
       default: // case "all_operations":
         sortedOperations.sort((a, b) => b.date - a.date);   
     }
+    let len= userOperations.length
+    sortedOperations = sortedOperations.slice(0, len);
     return sortedOperations;
   };
 
@@ -124,31 +118,11 @@ export default function HomeOperations() {
       setClientNameAndMoney(data);
       setNameAndMoneyFlag(true);
       console.log("data is: " ,data);
-     // console.log(clientNameAndMoney[0].money ,clientNameAndMoney[0].name);
+     console.log(clientNameAndMoney[0].money ,clientNameAndMoney[0].name);
     } catch (error) {
       console.log("Error:", error);
     }
   };
-
-/* 
-  const getAmount = () => {
-    //  let latestAmount = 0;
-  
-    // allOperations.forEach((operation) => {
-    //   if(operation.sender_account_number === account_number && operation.sender_branch === branch ) {
-    //     latestAmount -= operation.amount;
-    //   } else {
-    //     if ( operation.receiver_account_number === account_number && operation.receiver_branch === branch){
-    //       latestAmount += operation.amount;
-    //     }
-    //   }
-    // });
-  
-    // setMoneyAmount(latestAmount);
-
-    allOperations.sort((a, b) => b.date - a.date);  
-    setMoneyAmount(allOperations[0].amount); 
-  };*/
 
   return (
     <>
@@ -173,7 +147,6 @@ export default function HomeOperations() {
                   value={sortingCriteria}
                   onChange={handleSortingChange}
                 >
-                  <option value="/" />
                   <option value="all_operations">All operations</option>
                   <option value="Cash">Cash</option>
                   <option value="Online_Transfer">Online Transfer</option>
@@ -194,10 +167,9 @@ export default function HomeOperations() {
               {sortedUserOperations.map((operation, index) => (
                 <li className="operation_item" key={index}>
                   {/* operations Title */}
-                  <p className="operationTitle"><bold>{operation.way_of_payment}</bold></p>
+                  <p className="operationTitle" fontWeight="bold" >{operation.way_of_payment}</p>
                   {/* Display only the date without the time portion*/}
-                  <p>{new Date(operation.date).toLocaleDateString()}</p>
-                  <br></br><br></br><br></br><br></br>
+                  <p id='dateDisplay'>{new Date(operation.date).toLocaleDateString()}</p>
                   {/* Conditional rendering of reciever based on account_number */}
                   {operation.receiver_account_number !== account_number && (
                     <p>reciever: {operation.receiver_account_number}</p>
@@ -205,9 +177,9 @@ export default function HomeOperations() {
                   {operation.sender_account_number !== account_number && (
                     <p>sender: {operation.sender_account_number}</p>
                   )}
-                  {/* Add inline styles based on the condition */}
-                  <div style={{ color: operation.plus_minus === "plus" ? "green" : "red" }}>
-                   <p>{operation.plus_minus === "plus" ? "+" : "-"}{operation.amount}</p> 
+                  {/* Adding inline styles based on the condition */}
+                  <div style={{ color: operation.receiver_account_number === account_number ? "green" : "red" }}>
+                   <p>{operation.receiver_account_number === account_number ? "+" : "-"}{operation.amount}</p> 
                   </div>
                   {/* Show additional details when the operation is selected */}
                   {selectedOperation === operation && (
@@ -218,7 +190,7 @@ export default function HomeOperations() {
                   )}
                   {/* Show the "More details" link */}
                   <p>
-                    <Link onClick={() => handleToggleDetails(operation)}>
+                    <Link className="moreLinks" onClick={() => handleToggleDetails(operation)}>
                       {selectedOperation === operation ? "Less details" : "More details"}
                     </Link>
                   </p>
@@ -232,6 +204,9 @@ export default function HomeOperations() {
       </div>
 
         {/* Custom messages for empty  selcted option*/}
+        {sortingCriteria === "all_operations" && sortedUserOperations.length === 0 && (
+          <p>There is no operation to show.</p>
+        )}
         {sortingCriteria === "Cash" && sortedUserOperations.length === 0 && (
           <p>There is no Cash to show.</p>
         )}
@@ -247,17 +222,22 @@ export default function HomeOperations() {
         {sortingCriteria === "from_account" && sortedUserOperations.length === 0 && (
           <p>There is no Online Transfer to show.</p>
         )}
+         {sortingCriteria === "all_operations_descending" && sortedUserOperations.length === 0 && (
+          <p>There is no operation to show.</p>
+        )}
 
         {/* Show the "More operation..." link */}
         {loadMoreVisible && !(
+          (sortingCriteria === "all_operations" && sortedUserOperations.length === 0) ||
           (sortingCriteria === "Cash" && sortedUserOperations.length === 0) ||
           (sortingCriteria === "Online_Transfer" && sortedUserOperations.length === 0) ||
           (sortingCriteria === "Credit_Card" && sortedUserOperations.length === 0) ||
           (sortingCriteria === "to_account" && sortedUserOperations.length === 0) ||
-          (sortingCriteria === "from_account" && sortedUserOperations.length === 0)
+          (sortingCriteria === "from_account" && sortedUserOperations.length === 0) ||
+          (sortingCriteria === "all_operations_descending" && sortedUserOperations.length === 0) 
         )&&(
           <p>
-            <Link onClick={handleLoadMore}>More operation...</Link>
+            <Link id="moreOperation" className="moreLinks" onClick={handleLoadMore}>More operation...</Link>
           </p>
         )}
     </div>
