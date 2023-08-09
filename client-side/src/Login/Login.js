@@ -4,6 +4,7 @@ import CryptoJS from "crypto-js";
 import logo from "./logobank.png"
 import loginImage from "./backgroundphoto2.jpg"
 import "./login.css"
+import Audio from "../Audio/Audio"
 const start = "http://localhost:3001";
 
 const LoginPage = () => {
@@ -70,7 +71,7 @@ console.log(response);
     </div>
     </div>
     <div className="loginForm">
-      
+    <Audio src= "/logineng.mp3" />
       <h2 className="login-title">Login to Your Bank Account</h2>
         <form onSubmit={handleSubmit} className="login-form">
           <label>
@@ -83,7 +84,7 @@ console.log(response);
             />
           </label>
           <label>
-            Password:
+            Password   :
             <input
               type="password"
               name="password"

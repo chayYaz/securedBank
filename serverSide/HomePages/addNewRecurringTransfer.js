@@ -3,7 +3,6 @@ const router = express.Router();
 const connection = require('../database');
 
 router.post('/users/addRecuringTransfer', async (req, res) => {
-  console.log("in /users/addRecuringTransfer");
   try {
     const {
       sender_account_number,

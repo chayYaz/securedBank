@@ -7,7 +7,7 @@ const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 const sendRoutes = require('./HomePages/serverNewSend')
-const getRightRecurring = require('./HomePages/getRightRecurring');
+const getAllRecurring = require('./HomePages/getAllRecurring');
 const getSpecificUserRecurringTransfers = require('./HomePages/getSpecificUserRecurringTransfers')
 const addSpecificUserRecurringTransfers = require('./HomePages/addNewRecurringTransfer')
 const login= require('./loginPage')
@@ -19,7 +19,7 @@ const managerOperations=require('./Admin/ManagerOperations')
 
 app.use("/", operationsRoutes);
 app.use("/", sendRoutes);
-app.use("/", getRightRecurring);
+app.use("/", getAllRecurring);
 app.use("/", getSpecificUserRecurringTransfers);
 app.use("/", addSpecificUserRecurringTransfers);
 app.use("/", login);

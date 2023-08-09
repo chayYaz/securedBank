@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-
-const NewSend = ({addressToSend}) => {
+import "./NewSend.css"
+import Audio from "../Audio/Audio";
+const NewSend = ({addressToSend,title,audio}) => {
   const [formData, setFormData] = useState({
     receiver_account_number: "",
     receiver_branch: "",
@@ -63,6 +64,9 @@ const NewSend = ({addressToSend}) => {
   
 
   return (
+    <div className="new-send-container">
+    <Audio src={audio} />
+    <h1 className="page-title">{title}</h1>
     <form onSubmit={handleSubmit}>
       <label>
         Receiver Account Number:
@@ -106,6 +110,7 @@ const NewSend = ({addressToSend}) => {
       <br />
       <input type="submit" value="Submit" />
     </form>
+    </div>
   );
 };
 
