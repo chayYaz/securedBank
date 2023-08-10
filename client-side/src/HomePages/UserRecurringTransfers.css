@@ -20,7 +20,7 @@ li{
   justify-content: center;
   align-items: center;
   margin:auto;
-  background-color: #eaeaeac4;
+  background-color: silver;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
@@ -42,21 +42,26 @@ li{
 }
 .transfer-row .amount {
   font-size: 18px; /* Larger font size for the amount */
-  color: #d32f2f; /* Red color for the amount */
+  color: #a40b3c; /* Red color for the amount */
   margin-left: auto; /* Move the amount to the right */
 }
 
-button {
+.user-recurring-transfers button {
   color: #000; /* Black text color for delete button */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   padding: 5px 10px;
+  background-color: #f4364f; /* Red color for the delete button */
+  color: white;
  
 }
+.user-recurring-transfers button:hover{
+  background-color: #e7001f;
+}
 .amount {
-  font-size: 1.1rem;
-  color: #d32f2f; /* Red color for the amount */
+  font-size: 1.2rem;
+  color: #e7001f; /* Red color for the amount */
   font-weight: 700;
 }
 
