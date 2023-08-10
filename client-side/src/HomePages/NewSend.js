@@ -12,7 +12,7 @@ const NewSend = ({addressToSend,title,audio}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value,way_of_payment:"Online Transfer" ,plus_minus:"plus"});
+    setFormData({ ...formData, [name]: value,way_of_payment:"Online Transfer"});
   };
 
   const handleSubmit = async (e) => {

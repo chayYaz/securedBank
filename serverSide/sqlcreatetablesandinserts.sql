@@ -165,3 +165,5 @@ select * from user_accounts;
 select * from branch_administrators
 select * from operations where (sender_account_number=  1234567890 or receiver_account_number= 1234567890 ) and way_of_payment='Credit Card'
 select * from recurring_Transfers where sender_account_number= 1234567890
+ALTER TABLE operations
+DROP COLUMN plus_minus;

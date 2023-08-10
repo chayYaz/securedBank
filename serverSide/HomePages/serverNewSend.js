@@ -15,7 +15,6 @@ router.post("/users/newSend", (req, res) => {
   } = req.body;
 
   const currentDate = new Date().toISOString().split("T")[0];
-  const plusMinus = "plus"; // For sender's account
   const wayOfPayment = "Online Transfer";
 
   // Start the transaction
@@ -48,8 +47,8 @@ router.post("/users/newSend", (req, res) => {
         }
 
         // Insert the transaction into the operations table
-        const insertQuery = "INSERT INTO operations (sender_account_number, sender_branch, receiver_account_number, receiver_branch, amount, date, reason, way_of_payment, plus_minus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const values = [sender_account_number, sender_branch, receiver_account_number, receiver_branch, amount, currentDate, reason, wayOfPayment, plusMinus];
+        const insertQuery = "INSERT INTO operations (sender_account_number, sender_branch, receiver_account_number, receiver_branch, amount, date, reason, way_of_payment) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        const values = [sender_account_number, sender_branch, receiver_account_number, receiver_branch, amount, currentDate, reason, wayOfPayment];
         connection.query(insertQuery, values, (err, insertResult) => {
           if (err) {
             console.log("Error inserting data into operations table:", err);
