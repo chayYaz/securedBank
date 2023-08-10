@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai"; // Import the delete icon from react-icons
 import "./UserRecurringTransfers.css"
+
+// Functional component to display user's recurring transfers
 const UserRecurringTransfers = () => {
-  const [transfers, setTransfers] = useState([]);
+  const [transfers, setTransfers] = useState([]); // State to hold the list of transfers
   let account_number = localStorage.getItem("account_number");
   let branch = localStorage.getItem("branch");
 
+  // Function to fetch user's recurring transfers
   const fetchTransfers = async () => {
     try {
       const response = await fetch("http://localhost:3001/users/recurringTransfers", {
@@ -21,9 +23,8 @@ const UserRecurringTransfers = () => {
       });
   
       if (response.status==200) {
-        const data = await response.json();
-       
-        setTransfers(data);
+        const data = await response.json();  // Parse response data
+        setTransfers(data); // Update the transfers state with fetched data
         console.log(data);
       } else {
         console.error("Error fetching user transfers:", await response.text());
@@ -38,6 +39,7 @@ const UserRecurringTransfers = () => {
     fetchTransfers();
   }, []);
 
+  // Function to handle transfer deletion
   const handleDelete = async (transferId) => {
     try {
       await fetch("http://localhost:3001/recurringTransfers/delete", {
@@ -47,8 +49,7 @@ const UserRecurringTransfers = () => {
         },
         body: JSON.stringify({ id: transferId }),
       });
-      // Fetch transfers again after deleting to update the list
-      // fetchTransfers();
+      // Update transfers state after successful deletion
       setTransfers((prevTransfers) =>
       prevTransfers.filter((transfer) => transfer.id !== transferId)
     );
@@ -68,29 +69,26 @@ const UserRecurringTransfers = () => {
           {transfers.map((transfer) => (
             <li key={transfer.id} >
                 <div className="transfer-row">
-  <div className="transfer-details">
-    <div className="amount">
-      <span>Amount:</span> {transfer.amount}
-    </div>
-    <div>
-      <span>Receiver Account Number:</span> {transfer.receiver_account_number}
-    </div>
-    <div>
-      <span>Receiver Branch:</span> {transfer.receiver_branch}
-    </div>
-    <div>
-      <span>Reason:</span> {transfer.reason}
-    </div>
-  </div>
- 
-</div>
-
-              <div className="buttonDelete">
-              <button onClick={() => handleDelete(transfer.id)}>
-                  <AiFillDelete /> delete
-                </button>
-              </div>
-              
+                  <div className="transfer-details">
+                    <div className="amount">
+                      <span>Amount:</span> {transfer.amount}
+                    </div>
+                    <div>
+                      <span>Receiver Account Number:</span> {transfer.receiver_account_number}
+                    </div>
+                    <div>
+                      <span>Receiver Branch:</span> {transfer.receiver_branch}
+                    </div>
+                    <div>
+                      <span>Reason:</span> {transfer.reason}
+                    </div>
+                  </div>
+                </div>
+                <div className="buttonDelete">
+                <button onClick={() => handleDelete(transfer.id)}>
+                    <AiFillDelete /> delete
+                  </button>
+                </div>
             </li>
           ))}
         </ul>

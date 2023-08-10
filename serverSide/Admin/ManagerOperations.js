@@ -1,32 +1,31 @@
-// managerOperations.js
-const express = require('express');
-const router = express.Router();
-const connection = require('../database');
-const CryptoJS = require('crypto-js');
-// Route to add a new customer
-              
+const express = require('express');//It's used to create web servers and define routes.
+const router = express.Router(); //Creates an instance of an Express router.
+const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
+const CryptoJS = require('crypto-js');  //provides various cryptographic functions for encryption and decryption.
+
+ // Route for adding a new customer
 router.post('/managerOperations/customers/add', (req, res) => {
   
-    const { name, account_number, password, branch } = req.body;
-    const money = 100;
-console.log(password);
-    const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
+  const { name, account_number, password, branch } = req.body;
+  const money = 100;
+  console.log(password);
+  // Decrypt the password using AES
+  const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
   const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-    const insertUserQuery = 'INSERT INTO user_accounts (name, account_number, password, branch,money) VALUES (?, ?, ?, ?,?)';
-    connection.query(insertUserQuery, [name, account_number, decryptedPassword, branch,money], (err, userResult) => {
-      if (err) {
-        console.error('Error creating user:', err);
-        return res.status(500).json({ message: 'Database error' });
-      }
-      res.status(200).json({});
-    });
+  const insertUserQuery = 'INSERT INTO user_accounts (name, account_number, password, branch,money) VALUES (?, ?, ?, ?,?)';
+  connection.query(insertUserQuery, [name, account_number, decryptedPassword, branch,money], (err, userResult) => {
+    if (err) {
+      console.error('Error creating user:', err);
+      return res.status(500).json({ message: 'Database error' });
+    }
+    res.status(200).json({});
   });
+});
   
 
   
 
-// Route to fetch all customers
-// Route to fetch all customers
+// Route to fetch(bring) all customers
 router.post('/managerOperations/customers', (req, res) => {
   const { id } = req.body;
   const query = 'SELECT  user_accounts.name,user_accounts.money,user_accounts.account_number,user_accounts.branch FROM user_accounts INNER JOIN branch_administrators ON branch_administrators.branch = user_accounts.branch WHERE branch_administrators.id = ?';
@@ -51,7 +50,7 @@ router.post('/managerOperations/customers/delete', (req, res) => {
       return res.status(500).json({ message: 'Database error' });
     }
 
-    // First, delete related rows from the 'operations' table
+    //Delete related rows from the 'operations' table
     const deleteOperationsQuery = 'DELETE FROM operations WHERE (sender_account_number = ? and sender_branch=?) OR (receiver_account_number=? and receiver_branch =?)';
     connection.query(deleteOperationsQuery, [customerId, customerBranch, customerId, customerBranch], (err, operationsResult) => {
       if (err) {
@@ -61,7 +60,7 @@ router.post('/managerOperations/customers/delete', (req, res) => {
         });
       }
 
-      // Next, delete the customer from 'user_accounts' table
+      // Delete the customer from 'user_accounts' table
       const deleteUserQuery = 'DELETE FROM user_accounts WHERE account_number = ? and branch=?';
       connection.query(deleteUserQuery, [customerId,customerBranch], (err, userResult) => {
         if (err) {

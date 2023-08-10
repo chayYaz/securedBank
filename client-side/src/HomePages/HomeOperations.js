@@ -1,7 +1,8 @@
 import './HomeOperations.css';
 import {Link, useParams, useLocation,} from "react-router-dom";
 import React, { useState, useEffect } from "react";
-const start = "http://localhost:3001/";
+
+const start = "http://localhost:3001/";// API base URL
 
 export default function HomeOperations() {
 
@@ -23,6 +24,7 @@ export default function HomeOperations() {
     getClientNameAndMoney();
   }, []);
 
+  // Function to handle "Load More" button click
   const handleLoadMore = () => {
     const currentLength = userOperations.length;
     const remainingOperations = allOperations.slice(currentLength, currentLength + loadCountIncrement);
@@ -30,9 +32,9 @@ export default function HomeOperations() {
     setLoadMoreVisible(allOperations.length > currentLength + loadCountIncrement);
   };
 
+   // Function to fetch user operations
   const getOperations = async () => {
     console.log("in get operation");
-
     try {
       let response = await fetch(
         `${start}users/${account_number}/${branch}/allOperations`
@@ -58,13 +60,14 @@ export default function HomeOperations() {
     }
   };
 
+  // Function to handle sorting criteria change
   const handleSortingChange = (event) => {
     // the function is created to update the sortingCriteria state when the select value changes
     setSortingCriteria(event.target.value);
   };
 
+  // The function return a sorted copy of the allOperations array based on the selected sorting criteria
   const sortUserOperations = () => {
-    // the function return a sorted copy of the userOperations array based on the selected sorting criteria
     let sortedOperations = [...allOperations];
 
     switch(sortingCriteria) {
@@ -93,20 +96,21 @@ export default function HomeOperations() {
       default: // case "all_operations":
         sortedOperations.sort((a, b) => b.date - a.date);   
     }
-    let len= userOperations.length
-    sortedOperations = sortedOperations.slice(0, len);
+    sortedOperations = sortedOperations.slice(0,  userOperations.length);
     return sortedOperations;
   };
 
+  // Sorted user operations based on sorting criteria
   const sortedUserOperations = sortUserOperations();
 
+  // Function to toggle operation details visibility
   const handleToggleDetails = (operation) => {
     setSelectedOperation((prevSelected) => (prevSelected === operation ? null : operation));
   };
   
+  // Function to fetch client name and money data
   const getClientNameAndMoney = async () => {
     console.log("in getClientNameAndMoney");
-
     try {
       let response = await fetch(
         `${start}users/${account_number}/${branch}/userNameAndMoney`

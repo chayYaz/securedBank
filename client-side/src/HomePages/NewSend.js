@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./NewSend.css"
 import Audio from "../Audio/Audio";
+
+
+// Functional component for handling money transfer form
 const NewSend = ({addressToSend,title,audio}) => {
   const [formData, setFormData] = useState({
     receiver_account_number: "",
@@ -10,11 +13,13 @@ const NewSend = ({addressToSend,title,audio}) => {
     reason: "",
   });
 
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value,way_of_payment:"Online Transfer"});
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     console.log("in handle submit");
     e.preventDefault();
@@ -38,6 +43,7 @@ const NewSend = ({addressToSend,title,audio}) => {
       const currentDate = new Date().toISOString().split("T")[0];
       const sender_account_number=localStorage.getItem("account_number");
       const sender_branch=localStorage.getItem("branch");
+
       // Add the current date to the form data
       const dataToSend = { ...formData, 
         date: currentDate,

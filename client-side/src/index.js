@@ -1,11 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client'; // Import the ReactDOM library for rendering components
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom";
-
+import { BrowserRouter } from "react-router-dom"; // Import the BrowserRouter from react-router-dom for routing
+ 
+// Create a root element for rendering
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render the App component within the BrowserRouter
 root.render(
   <BrowserRouter>
     <App />

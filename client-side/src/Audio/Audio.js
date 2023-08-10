@@ -1,5 +1,8 @@
 import React from "react";
 import "./Audio.css"
+
+
+// Defining the Audio component as a functional component
 const Audio = ({ src }) => {
   return (
     <audio controls>

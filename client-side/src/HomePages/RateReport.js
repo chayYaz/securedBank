@@ -1,7 +1,8 @@
 import React from "react";
 import Audio from "../Audio/Audio";
-import "./RateReport.css"; // Import your CSS file
+import "./RateReport.css"; 
 
+ // Functional component to display bank interest rates and terms
 const RateReport = () => {
   return (
     <div className="rate-report-container">

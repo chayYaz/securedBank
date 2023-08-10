@@ -1,20 +1,23 @@
-const cron = require('node-cron');
-const axios = require('axios');
+const cron = require('node-cron'); // used for scheduling tasks to run at specific intervals using cron syntax
+const axios = require('axios'); //provides a simple and elegant way to send HTTP requests and handle responses
 const data=[]
 
 
 // Function to call your insert code or the endpoint that triggers the insert
+//perform the hourly task, such as inserting data into the operations table
 const insertHourly = async () => {
   try {
-    // Your code to perform the hourly task, such as inserting data into the operations table
-    // ...
-
     // Query the database to retrieve the rows from the recurring_transfers table
     const { data } = await axios.get('http://localhost:3001/recurringTransfers'); // Replace the URL with the correct endpoint to retrieve the recurring transfers data
 
+
+    /* iterates over each item in the retrieved data array and attempts to 
+    insert it into the 'http://localhost:3001/users/newSend' endpoint using the axios.post method.
+    */
     for (const item of data) {
-      try {
+      try { 
         console.log("Inserting data:", item);
+        // Insert the retrieved data into the 'users/newSend' endpoint
         await axios.post('http://localhost:3001/users/newSend', item);
         console.log("Data inserted successfully!");
       } catch (error) {

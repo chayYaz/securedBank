@@ -1,10 +1,14 @@
 import { BrowserRouter, Routes, Route ,Link,Outlet} from "react-router-dom";
 import React, { useState } from "react";
 import "./Navigation.css"
+
+
+// Functional component for rendering the navigation menu
 const Navigation = () => {
   
   const [menuVisible, setMenuVisible] = useState(false);
 
+  // Function to toggle the visibility of the menu
   const toggleMenu = () => {
     console.log("toggled");
     setMenuVisible((prevMenuVisible) => !prevMenuVisible);
@@ -16,24 +20,21 @@ const Navigation = () => {
         { fontSize: "5rem"}} >☰</span>
       <nav className={`menu  ${menuVisible ? "show" : ""}`}>
       <ul>
-
-          <li>
-            <div><span className="material-symbols-outlined">currency_exchange</span>
-              <Link to="./addRecurringTransfer">add Recurring Transfer </Link>
-            </div>
-          </li>
+        <li>
+          <div><span className="material-symbols-outlined">currency_exchange</span>
+            <Link to="./addRecurringTransfer">add Recurring Transfer </Link>
+          </div>
+        </li>
         <li>
           <div>
-          <span className="material-symbols-outlined">sync_alt</span>
+            <span className="material-symbols-outlined">sync_alt</span>
             <Link to="./recurringTransfer">Recurring Transfers</Link>
           </div>
         </li>
         <li>
           <div>
             <span className="material-symbols-outlined">credit_score</span>
-            <Link to="./homeOperations">
-              Recent operations
-            </Link>
+            <Link to="./homeOperations">Recent operations</Link>
           </div>
         </li>
         <li>
@@ -50,7 +51,7 @@ const Navigation = () => {
         </li>
         <li>
           <div>
-          <span className="material-symbols-outlined">logout</span>
+            <span className="material-symbols-outlined">logout</span>
             <Link to="/" onClick={() => 
               localStorage.clear() }>
               logout

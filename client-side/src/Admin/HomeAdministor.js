@@ -1,8 +1,10 @@
-// HomeAdministor.js
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomeAdministrator.css"
-import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js"; // Importing the CryptoJS library for encryption
+
+
+// Defining the HomeAdministor component
 const HomeAdministor = () => {
   const [newCustomer, setNewCustomer] = useState({
     name: "",
@@ -22,6 +24,7 @@ const HomeAdministor = () => {
   const fetchCustomers = async () => {
     let adminId = localStorage.getItem("managerId");
     try {
+      // Fetch customer data for the admin
       const response = await fetch("http://localhost:3001/managerOperations/customers", {
         method: "POST",
         headers: {
@@ -45,13 +48,15 @@ const HomeAdministor = () => {
   const handleAddCustomer = (e) => {
     e.preventDefault();
     let branch = localStorage.getItem("branch");
+    // Check if the password and confirm password match
     if (newCustomer.password !== newCustomer.confirm_password) {
       console.error("Password and Confirm Password do not match");
       alert("Passwords do not match");
       return;
     }
+    // Encrypt the password before sending it to the server
     const encryptedPassword = CryptoJS.AES.encrypt(newCustomer.password, "my-secret-key").toString();
-  
+    // Send customer data to the server for addition
     fetch("http://localhost:3001/managerOperations/customers/add", {
       method: "POST",
       headers: {
@@ -72,17 +77,15 @@ const HomeAdministor = () => {
         password: "",
         confirm_password: "",
       });
-      // Refresh the customer list after adding
-      // fetchCustomers();
+      // Update the customer list after adding
       setCustomers((prevCustomers) => [...prevCustomers, {...newCustomer,money:100}]);
-
     })
     .catch((error) => {
       console.error("Error adding customer:", error);
     });
   };
   
-
+  // Delete customer based on account number and branch
   const handleDeleteCustomer = async (customerAccount,customerBranch) => {
     try {
       await fetch(`http://localhost:3001/managerOperations/customers/delete`, {
@@ -92,13 +95,9 @@ const HomeAdministor = () => {
         },
         body: JSON.stringify({ customerId: customerAccount, customerBranch: customerBranch }),
       });
-      // Refresh the customer list after deleting
-      // fetchCustomers();
+      // Update the customer list after deleting
       setCustomers((prev) =>
-  prev.filter((customer) => customer.account_number !== customerAccount)
-);
-    ;
-
+      prev.filter((customer) => customer.account_number !== customerAccount));
     } catch (error) {
       console.error("Error deleting customer:", error);
     }
@@ -133,23 +132,20 @@ const HomeAdministor = () => {
           <div>
             <label>confirm password:</label>
             <input type="password" name="confirm_password" value={newCustomer.confirm_password} onChange={handleInputChange} required />
-
           </div>
           <button type="submit" onClick={handleAddCustomer}>Add Customer</button>
         </form>
-
       </div>
-
       <div className="customerList">
         <h2>Customer List</h2>
         <ul>
           {customers.map((customer,idx) => (
-            <li key={idx}>
-              {customer.name} - {customer.account_number} - {customer.money}  
-              <button onClick={() => handleDeleteCustomer(customer.account_number,customer.branch)}>
-                Delete
-              </button>
-            </li>
+          <li key={idx}>
+            {customer.name} - {customer.account_number} - {customer.money}  
+            <button onClick={() => handleDeleteCustomer(customer.account_number,customer.branch)}>
+              Delete
+            </button>
+          </li>
           ))}
         </ul>
       </div>
