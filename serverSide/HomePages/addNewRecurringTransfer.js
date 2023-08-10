@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const connection = require('../database');
+const express = require('express'); //It's used to create web servers and define routes.
+const router = express.Router(); //Creates an instance of an Express router.
+const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
 
 router.post('/users/addRecuringTransfer', async (req, res) => {
   try {
@@ -12,11 +12,11 @@ router.post('/users/addRecuringTransfer', async (req, res) => {
       amount,
       reason,
       way_of_payment,
-    } = req.body;
+    } = req.body; // Extracting required fields from the request body
 
     // Validate the required fields
     if (!sender_account_number || !sender_branch || !receiver_account_number || !receiver_branch || !amount || !reason || !way_of_payment) {
-      return res.status(400).json({ message: 'Missing required fields' });
+      return res.status(400).json({ message: 'Missing required fields' });  // Sending an error response for missing fields
     }
 
     // Insert the new row into the recurring_transfers table
@@ -25,17 +25,17 @@ router.post('/users/addRecuringTransfer', async (req, res) => {
 
     connection.query(insertQuery, values, (err, result) => {
       if (err) {
-        console.error('Error inserting data into recurring_transfers table:', err);
-        return res.status(500).json({ message: 'Error inserting data into recurring_transfers table' });
+        console.error('Error inserting data into recurring_transfers table:', err); // Logging the error if insertion fails
+        return res.status(500).json({ message: 'Error inserting data into recurring_transfers table' }); // Sending an error response
       }
 
       console.log('Data inserted into recurring_transfers table successfully!');
-      res.status(200).json({ message: 'Data inserted into recurring_transfers table successfully' });
+      res.status(200).json({ message: 'Data inserted into recurring_transfers table successfully' });  // Sending a success response
     });
   } catch (error) {
-    console.error('Error adding new row to recurring_transfers table:', error);
-    res.status(500).json({ message: 'Error adding new row to recurring_transfers table' });
+    console.error('Error adding new row to recurring_transfers table:', error); // Logging any general error during the process
+    res.status(500).json({ message: 'Error adding new row to recurring_transfers table' }); // Sending an error response
   }
 });
 
-module.exports = router;
+module.exports = router; // Export the router instance with defined routes

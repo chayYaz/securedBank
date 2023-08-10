@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const connection = require('../database');
+const express = require('express');  //It's used to create web servers and define routes.
+const router = express.Router(); //Creates an instance of an Express router.
+const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
 
 router.post("/users/newSend", (req, res) => {
   console.log("Received form data:", req.body);
@@ -32,7 +32,7 @@ router.post("/users/newSend", (req, res) => {
         connection.rollback(() => {
           res.status(500).json({ message: "Error updating sender's account" });
         });
-        return; // Remove the return statement here
+        return; 
       }
 
       // Update receiver's account
@@ -43,7 +43,7 @@ router.post("/users/newSend", (req, res) => {
           connection.rollback(() => {
             res.status(500).json({ message: "Error updating receiver's account" });
           });
-          return; // Remove the return statement here
+          return;
         }
 
         // Insert the transaction into the operations table
@@ -55,9 +55,9 @@ router.post("/users/newSend", (req, res) => {
             connection.rollback(() => {
               res.status(500).json({ message: "Error inserting data into operations table" });
             });
-            return; // Remove the return statement here
+            return; 
           }
-///?????
+
           // Commit the transaction
           connection.commit((err) => {
             if (err) {
