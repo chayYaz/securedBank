@@ -167,40 +167,56 @@ export default function HomeOperations() {
           <div className="right_section">
           {/* print the all operations list */}
           {userOperations.length > 0 ? (
-              <ol className="operations_list_user">
+            <table className="operations_list_user">
+            <tbody>
               {sortedUserOperations.map((operation, index) => (
-                <li className="operation_item" key={index}>
-                  {/* operations Title */}
-                  <p className="operationTitle" fontWeight="bold" >{operation.way_of_payment}</p>
-                  {/* Display only the date without the time portion*/}
-                  <p id='dateDisplay'>{new Date(operation.date).toLocaleDateString()}</p>
-                  {/* Conditional rendering of reciever based on account_number */}
-                  {operation.receiver_account_number !== account_number && (
-                    <p>reciever: {operation.receiver_account_number}</p>
-                  )}
-                  {operation.sender_account_number !== account_number && (
-                    <p>sender: {operation.sender_account_number}</p>
-                  )}
-                  {/* Adding inline styles based on the condition */}
-                  <div style={{ color: operation.receiver_account_number === account_number ? "green" : "red" }}>
-                   <p>{operation.receiver_account_number === account_number ? "+" : "-"}{operation.amount}</p> 
-                  </div>
-                  {/* Show additional details when the operation is selected */}
-                  {selectedOperation === operation && (
-                    <>
-                      {/* Display additional details */}
-                      <p> reason: {operation.reason}</p>
-                    </>
-                  )}
-                  {/* Show the "More details" link */}
-                  <p>
-                    <Link className="moreLinks" onClick={() => handleToggleDetails(operation)}>
-                      {selectedOperation === operation ? "Less details" : "More details"}
-                    </Link>
-                  </p>
-                </li>
+                <tr key={index} className="operation_item">
+                  <td className="operation_details">
+                    {/* operations Title */}
+                    <p className="operationTitle" fontWeight="bold">
+                      {operation.way_of_payment}
+                    </p>
+                    </td>
+                   <td className='operation_details'>
+                    {/* Display only the date without the time portion */}
+                    <p id="dateDisplay">
+                      {new Date(operation.date).toLocaleDateString()}
+                  
+                    </p>
+                    </td>
+                   <td className='operation_details'>
+                    {/* Conditional rendering of reciever based on account_number */}
+                    {operation.receiver_account_number !== account_number && (
+                      <p>reciever: {operation.receiver_account_number}</p>
+                    )}
+                    {operation.sender_account_number !== account_number && (
+                      <p>sender: {operation.sender_account_number}</p>
+                    )}
+                  </td>
+                  <td className={operation.receiver_account_number === account_number ? "greenText operation_details" : "redText operation_details"}>
+                    <p>{operation.receiver_account_number === account_number ? "+" : "-"}{operation.amount}</p>
+                  </td>
+                  <td className="operation_details">
+                    {/* Show additional details when the operation is selected */}
+                    {selectedOperation === operation && (
+                      <>
+                        {/* Display additional details */}
+                        <p> reason: {operation.reason}</p>
+                      </>
+                    )}
+                    {/* Show the "More details" link */}
+                    <p>
+                      <Link className="moreLinks" onClick={() => handleToggleDetails(operation)}>
+                        {selectedOperation === operation ? "Less details" : "More details"}
+                      </Link>
+                    </p>
+                  </td>
+                </tr>
               ))}
-            </ol>  
+            </tbody>
+          </table>
+          
+            
           ) : (
             <p className="loading_message">Loading...</p>
           )}

@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
+import JSEncrypt from "jsencrypt";
+import NodeRSA from 'node-rsa';
 import logo from "./logobank.png"
 import loginImage from "./backgroundphoto2.jpg"
 import "./login.css"
 import Audio from "../Audio/Audio"
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const start = "http://localhost:3001";
 
 const LoginPage = () => {
@@ -20,21 +24,44 @@ const LoginPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
+  const getPublicKey = async () => {
+    try {
+      const response = await fetch(start + '/public-key');
+      if (!response.ok) {
+        throw new Error('Failed to fetch public key');
+      }
+      const publicKey = await response.text();
+      return publicKey;
+    } catch (error) {
+      console.error('Error fetching public key:', error);
+      return null;
+    }
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Send login credentials to the server for validation
-      const encryptedPassword = CryptoJS.AES.encrypt(formData.password, "my-secret-key").toString();
-      const ans = await fetch(start+"/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({...formData,password:encryptedPassword}),
-      });
-      const response = await ans.json();
+      const publicKey = await getPublicKey();
+  
+      if (publicKey) {
+        const key = new NodeRSA();
+        key.importKey(publicKey, 'public');
+  
+        const encryptedPassword = key.encrypt(formData.password, 'base64');
+  
+        // Send encrypted data to the server
+        const ans = await fetch(start + '/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formData,
+            password: encryptedPassword,
+          }),
+        });
+        const response = await ans.json();
       console.log("response:");
       console.log(response);
       if (ans.status === 200) {
@@ -47,17 +74,18 @@ const LoginPage = () => {
         // Login failed, display an error message or take appropriate action
         console.log("Login failed. Please check your credentials.");
       }
+      }
     } catch (error) {
-      console.error("Error occurred during login:", error);
+      console.error('Error occurred during login:', error);
     }
+  
     // Clear the form after handling the submit
     setFormData({
-      username: "",
-      password: "",
-      branch: "", // Reset the branch field
+      username: '',
+      password: '',
+      branch: '', // Reset the branch field
     });
   };
-
   return (
     <div className="login-container">
     <div>

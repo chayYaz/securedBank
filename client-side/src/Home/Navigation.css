@@ -6,10 +6,13 @@
   display: flex;
   align-items: center;
   padding: 8px;
-  background-color: #282c34;
-  color: white;
+  background-color:rgb(255, 194, 41);
+  color: black;
+  font-weight: 500;
 }
-
+.material-symbols-outlined {
+  font-weight: bold;
+}
 .menu-icon {
   font-size: 2rem;
   cursor: pointer;
@@ -48,7 +51,7 @@
 
 .menu a {
   text-decoration: none;
-  color: white;
+  color: black;
   font-size: 1rem;
   transition: color 0.3s;
 }
@@ -81,7 +84,7 @@
     top: 70px; /* Adjust the top position as needed */
     left: 0;
     width: 100%;
-    background-color: #282c34;
+    background-color: goldenrod;
     z-index: 1;
     text-align: center;
   }

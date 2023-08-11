@@ -1,11 +1,8 @@
-body {
-  background-color: #faf3e1;
-}
-
 .operations_container {
   max-width: 100%; /* Adjust to fit smaller screens */
   margin: 15px auto;
   padding: 10px; /* Reduce padding for smaller screens */
+  width:80%;
 }
 
 .amountMoney_header {
@@ -73,97 +70,26 @@ body {
   width: 100%; /* Take up full width on smaller screens */
   text-align: center; 
 }
-
 .operations_list_user {
-  padding: 0;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.operations_list_user li {
-  counter-increment: item;
-  margin-bottom: 15px; /* Reduce margin for smaller screens */
-  padding: 20px; /* Reduce padding for smaller screens */
-  font-size: 20px; /* Adjust font size for smaller screens */
-  position: relative; /* Add position property for the hover effect */
+.operation_item {
+  background-color: #f2f2f2;
 }
 
-.operations_list_user p {
-  margin: 10px; /* Adjust margin for smaller screens */
+.operation_item td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  vertical-align: top;
 }
 
-.operations_list_user li:hover {
-  transition: 0.3s; /* Adjust the transition duration as needed */
-  background-color: #c3c3c3; /* Grey */
-  width: fit-content; /* Set the width to fit the content */
-  margin-left: 10px; /* Add some margin to move the element to the center */
+.greenText {
+  color: #018d65;
 }
 
-.operations_list_user li::before {
-  font-weight: bold;
-  margin-right: 5px; /* Adjust margin for smaller screens */
-  color: #fff;
-  background-color: #c3b14fa0; /* Gold */
-  padding: 8px; /* Reduce padding for smaller screens */
-  border-radius: 50%;
-  position: absolute; /* Add position property to the ::before pseudo-element */
-  left: -25px; /* Adjust the positioning of the ::before element */
-  top: 50%; /* Vertically center the ::before element */
-  transform: translateY(-50%); /* Center the ::before element vertically */
-}
-
-.loading_message {
-  font-style: italic;
-}
-
-.moreLinks {
-  font-weight: bold;
-  font-size: 16px; /* Adjust font size for smaller screens */
-  font-family: Arial, Helvetica, sans-serif;
-  color: #584b00a0;
-}
-
-#moreOperation{
- margin-left: 30px;
- font-weight: bolder;
- font-size: 20px; 
-}
-
-
-@media (max-width: 768px) {
-  .operations_list_user li {
-    font-size: 16px;
-  }
-  
-  .operations_list_user li::before {
-    font-size: 14px;
-    left: -20px;
-  }
-}
-@media (max-width: 350px) {
-  .amountMoney_header {
-    font-size: 18px;
-  }
-
-  .operations_header {
-    font-size: 18px;
-  }
-
-  .sorting_section label {
-    font-size: 16px;
-  }
-
-  .sorting_section select {
-    font-size: 14px; /* Adjust font size for even smaller screens */
-  }
-
-  .operations_list_user li {
-    font-size: 18px; /* Adjust font size for even smaller screens */
-  }
-
-  .operations_list_user p {
-    margin: 8px; /* Adjust margin for even smaller screens */
-  }
-
-  .moreLinks {
-    font-size: 14px; /* Adjust font size for even smaller screens */
-  }
+.redText {
+  color: #ed0057;
 }

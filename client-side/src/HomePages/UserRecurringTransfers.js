@@ -65,33 +65,35 @@ const UserRecurringTransfers = () => {
       {transfers.length === 0 ? (
         <p>No transfers found.</p>
       ) : (
-        <ul>
-          {transfers.map((transfer) => (
-            <li key={transfer.id} >
-                <div className="transfer-row">
-                  <div className="transfer-details">
-                    <div className="amount">
-                      <span>Amount:</span> {transfer.amount}
-                    </div>
-                    <div>
-                      <span>Receiver Account Number:</span> {transfer.receiver_account_number}
-                    </div>
-                    <div>
-                      <span>Receiver Branch:</span> {transfer.receiver_branch}
-                    </div>
-                    <div>
-                      <span>Reason:</span> {transfer.reason}
-                    </div>
-                  </div>
-                </div>
-                <div className="buttonDelete">
-                <button onClick={() => handleDelete(transfer.id)}>
+        <div className="user-recurring-transfers">
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Receiver Account Number</th>
+              <th>Receiver Branch</th>
+              <th>Reason</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transfers.map((transfer) => (
+              <tr key={transfer.id}>
+                <td className="amount">{transfer.amount}</td>
+                <td>{transfer.receiver_account_number}</td>
+                <td>{transfer.receiver_branch}</td>
+                <td>{transfer.reason}</td>
+                <td className="buttonDelete">
+                  <button onClick={() => handleDelete(transfer.id)}>
                     <AiFillDelete /> delete
                   </button>
-                </div>
-            </li>
-          ))}
-        </ul>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
       )}
     </div>
   );

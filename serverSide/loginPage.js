@@ -1,26 +1,35 @@
-const express = require('express'); //It's used to create web servers and define routes.
-const mysql2 = require('mysql2'); //It allows you to interact with a MySQL database.
-const CryptoJS = require("crypto-js"); //provides various cryptographic functions for encryption and decryption.
-const connection = require('./database');  //The exact content of the database.js file would define how the connection is established.
-const router = express.Router(); //Creates an instance of an Express router.
+const express = require('express');
+const crypto = require("crypto");
+const connection = require('./database');
+const NodeRSA = require('node-rsa');
+const router = express.Router();
 
+
+const key = new NodeRSA({ b: 2048 }); // 2048 bits key length
+
+// Provide the public key to the client
+router.get('/public-key', (req, res) => {
+  const publicKey = key.exportKey('public');
+  res.status(200).send(publicKey);
+});
 // This route handles the user login functionality
-router.post("/api/login", (req, res) => { 
+router.post("/login", async (req, res) => {
   console.log("in func");
   const { username, password, branch } = req.body;
 
-  // Decrypting the password using CryptoJS
-  const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
-  const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+  try {
+    // Decrypting the password using the fetched public key
+    const decryptedPassword = crypto.privateDecrypt(
+      privateKey,
+      Buffer.from(password, "base64")
+    ).toString("utf-8");
 
-  // SQL query to check user credentials in the database
-  //if something returned it means password is right!!!
-  const query =
+    // SQL query to check user credentials in the database
+    const query =
       "SELECT name, password FROM user_accounts WHERE account_number = ? AND password = ? AND branch = ? LIMIT 1";
 
-      // Executing the SQL query using the database connection
-      connection.query(query, [username, decryptedPassword, branch], (err, results) => {
-
+    // Executing the SQL query using the database connection
+    connection.query(query, [username, decryptedPassword, branch], (err, results) => {
       if (err) {
         // If there's an error with the query execution
         console.error("Error executing query:", err);
@@ -39,6 +48,10 @@ router.post("/api/login", (req, res) => {
         return res.status(200).json({ message: "Login successful" });
       }
     });
-  });
+  } catch (error) {
+    console.error("Error occurred during login:", error);
+    return res.status(500).json({ message: "Login error" });
+  }
+});
 
-  module.exports = router;
+module.exports = router;

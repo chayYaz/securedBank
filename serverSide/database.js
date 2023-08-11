@@ -3,7 +3,7 @@ const mysql2 = require('mysql2'); //It allows you to interact with a MySQL datab
 const connection = mysql2.createConnection({
   host: "localhost",
   user: "root",
-  password: "Ranit0907",
+  password: "0548574423",
   database: "fullstack7",
 });
 

@@ -2,79 +2,63 @@
   padding: 20px;
 }
 
-.user-recurring-transfers ul {
-  list-style: none; /* Remove list-style decoration */
-  padding: 0;
-}
-li{
-  display:flex;
-}
-.buttonDelete{
-  /* flex:1; */
-  margin:10px;
+.user-recurring-transfers table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.transfer-row {
-  display: flex;
-  flex:10;
-  justify-content: center;
-  align-items: center;
-  margin:auto;
-  background-color: silver;
+.user-recurring-transfers th,
+.user-recurring-transfers td {
+  border: 1px solid #ccc;
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  text-align: center;
 }
 
-.transfer-details {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.transfer-row span {
+.user-recurring-transfers th {
+  background-color: #f2f2f2;
   font-weight: bold;
-  margin-right: 5px;
-  margin:10px;
 }
-.transfer-row div{
-  justify-self: center;
-}
-.transfer-row .amount {
-  font-size: 18px; /* Larger font size for the amount */
-  color: #a40b3c; /* Red color for the amount */
-  margin-left: auto; /* Move the amount to the right */
+
+.user-recurring-transfers .amount {
+  font-size: 1.2rem;
+  color: #e7001f;
+  font-weight: 700;
 }
 
 .user-recurring-transfers button {
-  color: #000; /* Black text color for delete button */
+  color: #000;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   padding: 5px 10px;
-  background-color: #f4364f; /* Red color for the delete button */
+  background-color: #f4364f;
   color: white;
- 
 }
-.user-recurring-transfers button:hover{
+
+.user-recurring-transfers button:hover {
   background-color: #e7001f;
-}
-.amount {
-  font-size: 1.2rem;
-  color: #e7001f; /* Red color for the amount */
-  font-weight: 700;
 }
 
 /* Media query for smaller screens */
-@media (max-width: 600px) {
-  .transfer-row {
-    flex-direction: column;
+/* @media (max-width: 600px) {
+  .user-recurring-transfers th,
+  .user-recurring-transfers td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  .transfer-row .amount {
-    margin-left: 0; /* Reset margin to center the amount on smaller screens */
+  .user-recurring-transfers td {
+    margin-bottom: 10px;
   }
-  li{
-    display: block;
+
+  .user-recurring-transfers th:nth-child(2),
+  .user-recurring-transfers th:nth-child(3),
+  .user-recurring-transfers th:nth-child(4) {
+    display: none;
   }
-}
+
+  .user-recurring-transfers td.amount {
+    margin-bottom: 0;
+  }
+} */
