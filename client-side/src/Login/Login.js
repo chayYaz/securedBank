@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CryptoJS from "crypto-js";
+
 import JSEncrypt from "jsencrypt";
-import NodeRSA from 'node-rsa';
 import logo from "./logobank.png"
 import loginImage from "./backgroundphoto2.jpg"
 import "./login.css"
 import Audio from "../Audio/Audio"
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
 const start = "http://localhost:3001";
 
 const LoginPage = () => {
@@ -37,6 +34,12 @@ const LoginPage = () => {
       return null;
     }
   };
+  function encryptMessage(message, publicKey) {
+    const jsEncrypt = new JSEncrypt();
+    jsEncrypt.setPublicKey(publicKey);
+   
+    return jsEncrypt.encrypt(message);
+  }
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,11 +48,8 @@ const LoginPage = () => {
       const publicKey = await getPublicKey();
   
       if (publicKey) {
-        const key = new NodeRSA();
-        key.importKey(publicKey, 'public');
   
-        const encryptedPassword = key.encrypt(formData.password, 'base64');
-  
+        const encryptedPassword =encryptMessage(formData.password,publicKey)
         // Send encrypted data to the server
         const ans = await fetch(start + '/login', {
           method: 'POST',

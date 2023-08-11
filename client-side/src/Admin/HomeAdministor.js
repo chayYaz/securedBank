@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomeAdministrator.css"
-import CryptoJS from "crypto-js"; // Importing the CryptoJS library for encryption
+import JSEncrypt from "jsencrypt"
 
 
 // Defining the HomeAdministor component
@@ -44,30 +44,48 @@ const HomeAdministor = () => {
     const { name, value } = e.target;
     setNewCustomer({ ...newCustomer, [name]: value });
   };
-
-  const handleAddCustomer = (e) => {
+  const encryptMessage = (message, publicKey) => {
+    const jsEncrypt = new JSEncrypt();
+    jsEncrypt.setPublicKey(publicKey);
+  
+    return jsEncrypt.encrypt(message);
+  };
+  const handleAddCustomer = async (e) => {
+    let start="http://localhost:3001"
     e.preventDefault();
     let branch = localStorage.getItem("branch");
+  
     // Check if the password and confirm password match
     if (newCustomer.password !== newCustomer.confirm_password) {
       console.error("Password and Confirm Password do not match");
       alert("Passwords do not match");
       return;
     }
-    // Encrypt the password before sending it to the server
-    const encryptedPassword = CryptoJS.AES.encrypt(newCustomer.password, "my-secret-key").toString();
-    // Send customer data to the server for addition
-    fetch("http://localhost:3001/managerOperations/customers/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...newCustomer, password: encryptedPassword, branch: branch}),
-    })
-    .then((response) => {
-      if (!(response.status===200)) {
+  
+    try {
+      // Fetch the public key from the server
+      const publicKeyResponse = await fetch(start + '/homeAdmin/public-key');
+      if (!publicKeyResponse.ok) {
+        throw new Error('Failed to fetch public key');
+      }
+      const publicKey = await publicKeyResponse.text();
+  
+      // Encrypt the password using the public key
+      const encryptedPassword = encryptMessage(newCustomer.password, publicKey);
+  
+      // Send customer data to the server for addition
+      const response = await fetch(start + '/managerOperations/customers/add', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...newCustomer, password: encryptedPassword, branch: branch }),
+      });
+  
+      if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+  
       // Clear the form fields after successful response
       setNewCustomer({
         name: "",
@@ -77,13 +95,14 @@ const HomeAdministor = () => {
         password: "",
         confirm_password: "",
       });
+  
       // Update the customer list after adding
-      setCustomers((prevCustomers) => [...prevCustomers, {...newCustomer,money:100}]);
-    })
-    .catch((error) => {
+      setCustomers((prevCustomers) => [...prevCustomers, { ...newCustomer, money: 100 }]);
+    } catch (error) {
       console.error("Error adding customer:", error);
-    });
+    }
   };
+  
   
   // Delete customer based on account number and branch
   const handleDeleteCustomer = async (customerAccount,customerBranch) => {

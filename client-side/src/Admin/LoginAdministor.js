@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CryptoJS from "crypto-js"; // Importing the CryptoJS library for encryption
+import JSEncrypt from "jsencrypt";
+
 import logo from "../Login/logobank.png"
 import loginImage from "../Login/backgroundphoto2.jpg"
 import "../Login/login.css"
@@ -23,45 +24,74 @@ function LoginAdministor() {
   };
 
 
+  const getPublicKey = async () => {
+    try {
+      const response = await fetch(start + '/loginAdmin/public-key');
+      if (!response.ok) {
+        throw new Error('Failed to fetch public key');
+      }
+      const publicKey = await response.text();
+      return publicKey;
+    } catch (error) {
+      console.error('Error fetching public key:', error);
+      return null;
+    }
+  };
+  
+  const encryptMessage = (message, publicKey) => {
+    const jsEncrypt = new JSEncrypt();
+    jsEncrypt.setPublicKey(publicKey);
+  
+    return jsEncrypt.encrypt(message);
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Encrypt the password before sending it to the server
-      const encryptedPassword = CryptoJS.AES.encrypt(formData.password, "my-secret-key").toString();
-
-      // Send login credentials to the server for validation
-      const ans = await fetch(start+"/loginAdmin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({...formData,password:encryptedPassword}),
-      });
-      const response = await ans.json();
-      console.log("response:");
-      console.log(response);
-      if (ans.status === 200) {
-        // Login successful, handle the logged-in user as needed
-        console.log("Login successful!");
-        localStorage.setItem("managerId", formData.id);
-        localStorage.setItem("branch", formData.branch);
-        localStorage.setItem("isAdmin", "yes");
-        navigate("/homeAdministor")
-      } else {
-        // Login failed, display an error message or take appropriate action
-        console.log("Login failed. Please check your credentials.");
+      const publicKey = await getPublicKey();
+  
+      if (publicKey) {
+        const encryptedPassword = encryptMessage(formData.password, publicKey);
+  
+        const ans = await fetch(start + '/loginAdmin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...formData,
+            password: encryptedPassword,
+          }),
+        });
+  
+        const response = await ans.json();
+        console.log("response:");
+        console.log(response);
+  
+        if (ans.status === 200) {
+          console.log("Login successful!");
+          localStorage.setItem("managerId", formData.id);
+          localStorage.setItem("branch", formData.branch);
+          localStorage.setItem("isAdmin", "yes");
+          navigate("/homeAdministor")
+        } else {
+          console.log("Login failed. Please check your credentials.");
+        }
       }
     } catch (error) {
-      console.error("Error occurred during login:", error);
+      console.error('Error occurred during login:', error);
     }
-    // Clear the form after handling the submit
+  
     setFormData({
-      id: "",
-      password: "",
-      branch: "", // Reset the branch field
+      id: '',
+      password: '',
+      branch: '',
     });
   };
+  
+  // Rest of your code...
+  
 
   return (
     <div className="login-container">

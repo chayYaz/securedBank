@@ -1,19 +1,24 @@
 const express = require('express');//It's used to create web servers and define routes.
 const router = express.Router(); //Creates an instance of an Express router.
 const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
-const CryptoJS = require('crypto-js');  //provides various cryptographic functions for encryption and decryption.
-
+const JSEncrypt = require("node-jsencrypt");
+const jsEncrypt = new JSEncrypt({ default_key_size: 2048 });
+router.get("/homeAdmin/public-key", (req, res) => {
+  const publicKey = jsEncrypt.getPublicKey();
+  res.send(publicKey);
+});
  // Route for adding a new customer
-router.post('/managerOperations/customers/add', (req, res) => {
-  
+ router.post('/managerOperations/customers/add', (req, res) => {
   const { name, account_number, password, branch } = req.body;
   const money = 100;
-  console.log(password);
-  // Decrypt the password using AES
-  const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
-  const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-  const insertUserQuery = 'INSERT INTO user_accounts (name, account_number, password, branch,money) VALUES (?, ?, ?, ?,?)';
-  connection.query(insertUserQuery, [name, account_number, decryptedPassword, branch,money], (err, userResult) => {
+
+  // Decrypt the encrypted password received from the client using the private key
+  const decryptedPassword = jsEncrypt.decrypt(password);
+
+  // Construct and execute the SQL query to add a new customer
+  const insertUserQuery = 'INSERT INTO user_accounts (name, account_number, password, branch, money) VALUES (?, ?, ?, ?, ?)';
+  
+  connection.query(insertUserQuery, [name, account_number, decryptedPassword, branch, money], (err, userResult) => {
     if (err) {
       console.error('Error creating user:', err);
       return res.status(500).json({ message: 'Database error' });
@@ -21,6 +26,8 @@ router.post('/managerOperations/customers/add', (req, res) => {
     res.status(200).json({});
   });
 });
+
+module.exports = router;
   
 
   

@@ -1,18 +1,20 @@
 const express = require('express'); //It's used to create web servers and define routes.
-const mysql2 = require('mysql2'); //It allows you to interact with a MySQL database.
-const CryptoJS = require("crypto-js");  //provides various cryptographic functions for encryption and decryption.
+
 const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
 const router = express.Router(); //Creates an instance of an Express router.
-
- // Route to handle admin login
-router.post("/loginAdmin", (req, res) => { 
-  console.log("in func");
+const JSEncrypt = require("node-jsencrypt");
+const jsEncrypt = new JSEncrypt({ default_key_size: 2048 });
+ // can be get because its known by everyone.
+ router.get("/loginAdmin/public-key", (req, res) => {
+  const publicKey = jsEncrypt.getPublicKey();
+  res.send(publicKey);
+});
+ router.post("/loginAdmin", (req, res) => { 
 
   const { id, password, branch } = req.body;
   
   // Decrypt the password using AES
-  const bytes = CryptoJS.AES.decrypt(password, "my-secret-key");
-  const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
+  const decryptedPassword = jsEncrypt.decrypt(password);
   console.log( id );
   console.log(decryptedPassword);
   console.log(branch);
