@@ -1,19 +1,18 @@
 const express = require('express');  //It's used to create web servers and define routes.
 const router = express.Router(); //Creates an instance of an Express router.
 const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
-
-router.post("/users/newSend", (req, res) => {
+const { authenticateToken } = require("../authenticateToken");
+router.post("/users/newSend", authenticateToken, (req, res) => {
   console.log("Received form data:", req.body);
 
   const {
-    sender_account_number,
-    sender_branch,
     receiver_account_number,
     receiver_branch,
     amount,
     reason,
   } = req.body;
-
+  const sender_account_number = req.user.account_number;
+  const sender_branch = req.user.branch;
   const currentDate = new Date().toISOString().split("T")[0];
   const wayOfPayment = "Online Transfer";
 

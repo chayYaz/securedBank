@@ -4,6 +4,7 @@ const connection = require('../database'); //The exact content of the database.j
 const router = express.Router(); //Creates an instance of an Express router.
 const JSEncrypt = require("node-jsencrypt");
 const jsEncrypt = new JSEncrypt({ default_key_size: 2048 });
+const jwt=require("jsonwebtoken")
  // can be get because its known by everyone.
  router.get("/loginAdmin/public-key", (req, res) => {
   const publicKey = jsEncrypt.getPublicKey();

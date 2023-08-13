@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { AiFillDelete } from "react-icons/ai"; // Import the delete icon from react-icons
+import Cookies from "js-cookie"
 import "./UserRecurringTransfers.css"
-
+import sendAuthorizedFetch from "../sendAuthorizedFetch"
 // Functional component to display user's recurring transfers
 const UserRecurringTransfers = () => {
   const [transfers, setTransfers] = useState([]); // State to hold the list of transfers
-  let account_number = localStorage.getItem("account_number");
-  let branch = localStorage.getItem("branch");
-
+ 
+  // let account_number = localStorage.getItem("account_number");
+  // let branch = localStorage.getItem("branch");
+  const jwtToken = Cookies.get("jwtToken");
+  console.log(jwtToken);
   // Function to fetch user's recurring transfers
   const fetchTransfers = async () => {
     try {
-      const response = await fetch("http://localhost:3001/users/recurringTransfers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_account_number: account_number,
-          user_account_branch: branch,
-        }),
-      });
-  
-      if (response.status==200) {
-        const data = await response.json();  // Parse response data
+      const data = await sendAuthorizedFetch(`http://localhost:3001/users/recurringTransfers`);
+      // Parse response data
         setTransfers(data); // Update the transfers state with fetched data
         console.log(data);
-      } else {
-        console.error("Error fetching user transfers:", await response.text());
-      }
+      
     } catch (error) {
       console.error("Error fetching user transfers:", error);
     }
@@ -61,7 +51,7 @@ const UserRecurringTransfers = () => {
 
   return (
     <div className="user-recurring-transfers">
-      <h2>All Recurring Transfers for User {account_number}</h2>
+      {/* <h2>All Recurring Transfers for User {tokenaccount_number}</h2> */}
       {transfers.length === 0 ? (
         <p>No transfers found.</p>
       ) : (

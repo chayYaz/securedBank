@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
 import JSEncrypt from "jsencrypt";
 import logo from "./logobank.png"
 import loginImage from "./backgroundphoto2.jpg"
@@ -11,7 +11,7 @@ const start = "http://localhost:3001";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    account_number: "",
     password: "",
     branch: "", // Add the branch field to the state
   });
@@ -67,8 +67,10 @@ const LoginPage = () => {
       if (ans.status === 200) {
         // Login successful, handle the logged-in user as needed
         console.log("Login successful!");
-        localStorage.setItem("account_number", formData.username);
-        localStorage.setItem("branch", formData.branch);
+        const token = response.accessToken;
+        Cookies.set("jwtToken", token, { expires: 7, secure: true, sameSite: "strict" });//httpOnly: true. is tto secure because i want to use it in my client side.
+        // localStorage.setItem("account_number", formData.username);
+        // localStorage.setItem("branch", formData.branch);
         navigate("/home/homeOperations")
       } else {
         // Login failed, display an error message or take appropriate action
@@ -81,7 +83,7 @@ const LoginPage = () => {
   
     // Clear the form after handling the submit
     setFormData({
-      username: '',
+      account_number: '',
       password: '',
       branch: '', // Reset the branch field
     });
@@ -106,8 +108,8 @@ const LoginPage = () => {
             account number:
             <input
               type="text"
-              name="username"
-              value={formData.username}
+              name="account_number"
+              value={formData.account_number}
               onChange={handleChange}
             />
           </label>

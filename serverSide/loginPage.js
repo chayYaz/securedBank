@@ -1,7 +1,8 @@
 const express = require('express');
 const connection = require('./database'); // Import your database connection module
+require('dotenv').config();
 const router = express.Router();
-
+const jwt=require("jsonwebtoken")
 const JSEncrypt = require("node-jsencrypt");
 
 // Initialize JSEncrypt instance with a default key size of 2048 bits
@@ -15,7 +16,7 @@ router.get("/public-key", (req, res) => {
 
 // Route to handle login
 router.post("/login", (req, res) => {
-  const { username, password, branch } = req.body;
+  const { account_number, password, branch } = req.body;
 
   // Decrypt the password received from the frontend
   const decryptedPassword = jsEncrypt.decrypt(password);
@@ -25,7 +26,7 @@ router.post("/login", (req, res) => {
     "SELECT name, password FROM user_accounts WHERE account_number = ? AND password = ? AND branch = ? LIMIT 1";
 
   // Execute the SQL query using the database connection
-  connection.query(query, [username, decryptedPassword, branch], (err, results) => {
+  connection.query(query, [account_number, decryptedPassword, branch], (err, results) => {
     if (err) {
       // If there's an error with the query execution
       console.error("Error executing query:", err);
@@ -40,8 +41,12 @@ router.post("/login", (req, res) => {
     } else { 
       // If the user's credentials are valid
       console.log("good ans");
+      let userInfo={
+        account_number:account_number, 
+        branch:branch}
+      const accessToken=jwt.sign(userInfo,'df1ea1eb859f1f669b7a92453f30887a9ae59491d054d51116ae05e197b73066fbe4b57af4e603394b833e4528a351f814a93f68471a16629d15dfffeb6f860e');
       // Login successful
-      return res.status(200).json({ message: "Login successful" });
+      return res.status(200).json({ message: "Login successful", accessToken:accessToken});
     }
   });
 });

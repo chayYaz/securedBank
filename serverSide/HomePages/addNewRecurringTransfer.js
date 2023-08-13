@@ -1,19 +1,19 @@
 const express = require('express'); //It's used to create web servers and define routes.
 const router = express.Router(); //Creates an instance of an Express router.
 const connection = require('../database'); //The exact content of the database.js file would define how the connection is established.
+const { authenticateToken } = require('../authenticateToken');
 
-router.post('/users/addRecuringTransfer', async (req, res) => {
+router.post('/users/addRecuringTransfer', authenticateToken, (req, res) => {
   try {
     const {
-      sender_account_number,
-      sender_branch,
       receiver_account_number,
       receiver_branch,
       amount,
       reason,
       way_of_payment,
     } = req.body; // Extracting required fields from the request body
-
+    const sender_account_number = req.user.account_number;
+    const sender_branch = req.user.branch;
     // Validate the required fields
     if (!sender_account_number || !sender_branch || !receiver_account_number || !receiver_branch || !amount || !reason || !way_of_payment) {
       return res.status(400).json({ message: 'Missing required fields' });  // Sending an error response for missing fields

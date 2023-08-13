@@ -1,16 +1,18 @@
 import './HomeOperations.css';
 import {Link, useParams, useLocation,} from "react-router-dom";
 import React, { useState, useEffect } from "react";
-
+import sendAuthorizedFetch from '../sendAuthorizedFetch';
+import Cookies from "js-cookie"
 const start = "http://localhost:3001/";// API base URL
 
 export default function HomeOperations() {
-
+  const [account_number, setAccount_number] = useState([]); 
+  const [branch, setBranch] = useState([]); 
   const [allOperations, setAllOperations] = useState([]);
   const [userOperations, setUserOperations] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState("all_operations"); // to  track of the selected sorting criterion
-  const account_number = localStorage.getItem("account_number");
-  const branch=localStorage.getItem("branch");
+  // const account_number = localStorage.getItem("account_number");
+  // const branch=localStorage.getItem("branch");
   const [selectedOperation, setSelectedOperation] = useState(null);
   const [clientNameAndMoney, setClientNameAndMoney] = useState([]);
   const [nameAndMoneyFlag , setNameAndMoneyFlag] = useState(false);
@@ -20,6 +22,9 @@ export default function HomeOperations() {
   const loadCountIncrement = 7; // Number of additional operations to load on each "Load More" click
 
   useEffect(() => {
+    const jwtToken = Cookies.get("jwtToken");
+    setAccount_number(jwtToken.account_number)
+    setBranch(jwtToken.branch)
     getOperations();
     getClientNameAndMoney();
   }, []);
@@ -36,15 +41,9 @@ export default function HomeOperations() {
   const getOperations = async () => {
     console.log("in get operation");
     try {
-      let response = await fetch(
-        `${start}users/${account_number}/${branch}/allOperations`
-      );
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }  
-      let user_Operations = await response.json();
-      // Format dates without the time
-      //go throw every operation Date and make it present with only a date without a the time
+      const response = await sendAuthorizedFetch(`http://localhost:3001/users/allOperations`);
+     
+      let user_Operations = response
       user_Operations = user_Operations.map((operation) => {
         return {
           ...operation,
@@ -101,7 +100,7 @@ export default function HomeOperations() {
   };
 
   // Sorted user operations based on sorting criteria
-  const sortedUserOperations = sortUserOperations();
+  const sortedUserOperations =sortUserOperations();
 
   // Function to toggle operation details visibility
   const handleToggleDetails = (operation) => {
@@ -112,17 +111,13 @@ export default function HomeOperations() {
   const getClientNameAndMoney = async () => {
     console.log("in getClientNameAndMoney");
     try {
-      let response = await fetch(
-        `${start}users/${account_number}/${branch}/userNameAndMoney`
-      );
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }  
-      let data = await response.json();
+      const url = `http://localhost:3001/users/userNameAndMoney`;
+      const body = {}; // You can customize the request body if needed
+      const data= await sendAuthorizedFetch(url, body);
       setClientNameAndMoney(data);
       setNameAndMoneyFlag(true);
       console.log("data is: " ,data);
-     console.log(clientNameAndMoney[0].money ,clientNameAndMoney[0].name);
+     console.log(data[0].money ,data[0].name);
     } catch (error) {
       console.log("Error:", error);
     }
@@ -184,18 +179,18 @@ export default function HomeOperations() {
                   
                     </p>
                     </td>
-                   <td className='operation_details'>
-                    {/* Conditional rendering of reciever based on account_number */}
+                    <td className='operation_details'>
+                    
                     {operation.receiver_account_number !== account_number && (
                       <p>reciever: {operation.receiver_account_number}</p>
                     )}
                     {operation.sender_account_number !== account_number && (
                       <p>sender: {operation.sender_account_number}</p>
                     )}
-                  </td>
+                  </td> 
                   <td className={operation.receiver_account_number === account_number ? "greenText operation_details" : "redText operation_details"}>
                     <p>{operation.receiver_account_number === account_number ? "+" : "-"}{operation.amount}</p>
-                  </td>
+                  </td> 
                   <td className="operation_details">
                     {/* Show additional details when the operation is selected */}
                     {selectedOperation === operation && (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./NewSend.css"
 import Audio from "../Audio/Audio";
-
+import sendAuthorizedFetch from "../sendAuthorizedFetch"
 
 // Functional component for handling money transfer form
 const NewSend = ({addressToSend,title,audio}) => {
@@ -41,19 +41,11 @@ const NewSend = ({addressToSend,title,audio}) => {
     try {
       // Get the current date from the computer
       const currentDate = new Date().toISOString().split("T")[0];
-      const sender_account_number=localStorage.getItem("account_number");
-      const sender_branch=localStorage.getItem("branch");
-
-      // Add the current date to the form data
-      const dataToSend = { ...formData, 
-        date: currentDate,
-        sender_account_number: sender_account_number,sender_branch:sender_branch};
   
       // Send data to the backend for insertion
-      const response = await axios.post(
-        addressToSend,
-        dataToSend
-      );
+    const response = await sendAuthorizedFetch(addressToSend, { ...formData, 
+    date: currentDate});
+
       console.log(response.data);
   
       // Clear the form after successful submission
