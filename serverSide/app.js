@@ -18,7 +18,7 @@ const deleteRecurring= require('./HomePages/deleteRecurring')
 const loginAdmin=require('./Admin/loginAdmin')
 const { insertHourly } = require('./HourlyJob.js');
 const managerOperations=require('./Admin/ManagerOperations')
-
+const { authenticateToken, authRouter } = require('./authenticateToken');
 // Configure routes for the application using the imported modules
 app.use("/", operationsRoutes);
 app.use("/", sendRoutes);
@@ -29,7 +29,7 @@ app.use("/", login);
 app.use("/", loginAdmin);
 app.use("/", deleteRecurring);
 app.use("/",managerOperations);
-
+app.use("/",authRouter);
 // Start the server and listen on port 3001
 app.listen(3001, () => {
   console.log('Server started on port 3001.');

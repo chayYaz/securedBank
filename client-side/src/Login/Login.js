@@ -134,7 +134,7 @@ const LoginPage = () => {
           </label>
           <button type="submit">Login</button>
         </form>
-        <button onClick={()=> navigate("/LoginAdministor")}> manager login</button>
+        <button className="manager-login-button" onClick={()=> navigate("/LoginAdministor")}> manager login</button>
         </div>
       </div>
   
