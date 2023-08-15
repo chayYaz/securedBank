@@ -5,6 +5,7 @@ This web application showcases my skills in secure user authentication, data enc
 Below, I'll provide an overview of the project's features, technologies used, and how it demonstrates my abilities.
 
 Project Overview
+
 Delphi Wealth Management is a secure and user-friendly web application designed to manage bank accounts and transactions. 
 The project demonstrates my proficiency in several key areas:
 
