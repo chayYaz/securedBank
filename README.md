@@ -10,11 +10,8 @@ Delphi Wealth Management is a secure and user-friendly web application designed 
 The project demonstrates my proficiency in several key areas:
 
 User Authentication: The application uses JSON Web Tokens (JWT) to ensure secure user authentication and authorization.
-
 Data Encryption: I've implemented client-side encryption using the JSEncrypt library, enhancing the security of sensitive information.
-
 Role-Based Access Control: The application employs different access privileges based on user roles, such as regular users and administrators.
-
 Cookies for Secure Storage: JWT tokens are securely stored as cookies on the client side for a seamless and safe user experience.
 
 Features
